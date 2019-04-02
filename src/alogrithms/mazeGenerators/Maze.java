@@ -20,4 +20,13 @@ public class Maze {
     public int getmColumns() {
         return mColumns;
     }
+
+    public boolean setValue(Position position, int value){
+        if(position.getRowIndex() < 0 || position.getRowIndex() >= this.mRows)
+            return false;
+        if(position.getColumnIndex() < 0 || position.getColumnIndex() >= this.mColumns)
+            return false;
+        this.maze[position.getRowIndex()][position.getColumnIndex()] = value;
+        return true;
+    }
 }

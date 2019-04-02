@@ -1,5 +1,7 @@
 package alogrithms.mazeGenerators;
 
+import javafx.geometry.Pos;
+
 public class SimpleMazeGenerator extends AMazeGenerator {
 
     public Maze generate(int rows, int columns)
@@ -7,28 +9,42 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         Maze simpleMaze = new Maze(rows, columns);
         for(int i=0; i<rows; i++)
             for(int j=0; j<columns; j++) {
-                if(j%2 == 0)
-                    simpleMaze.maze[i][j] = 0;
-                else
-                    simpleMaze.maze[i][j] = 1;
+                simpleMaze.maze[i][j] = 1;
             }
-        makeWay(simpleMaze);
+        findPath(simpleMaze);
+        randomWalls(simpleMaze);
         return simpleMaze;
     }
 
-
-
-    public static void main(String[] args) {
-        SimpleMazeGenerator a = new SimpleMazeGenerator();
-        Maze test = new Maze(5,5);
-        for(int i=0; i<test.getmRows(); i++)
-            for(int j=0; j<test.getmColumns(); j++)
-                test.maze[i][j] = 1;
-            a.findPath(test,0,0);
-        for(int i=0; i<test.getmRows(); i++) {
-            for (int j = 0; j < test.getmColumns(); j++)
-                System.out.print(test.maze[i][j]);
-        System.out.println();
+    void findPath(Maze maze){
+        Position position = new Position(0,0);
+        maze.setValue(position, 0);
+        while(position.getRowIndex() != maze.getmRows()-1 || position.getColumnIndex() != maze.getmColumns()-1){
+            int random = (int)((Math.random()*2)+1);
+            if(random == 1) {
+                if (position.getRowIndex() + 1 < maze.getmRows()) {
+                    position.setRow(position.getRowIndex() + 1);
+                    maze.setValue(position, 0);
+                }
+            }
+            else
+                if(position.getColumnIndex() + 1 < maze.getmColumns()) {
+                    position.setColumn(position.getColumnIndex() + 1);
+                    maze.setValue(position, 0);
+                }
         }
+    }
+
+    void randomWalls(Maze maze){
+        for(int i=0; i<maze.getmRows(); i++)
+            for(int j=0; j<maze.getmColumns(); j++) {
+                if(maze.maze[i][j] == 1){
+                    if(Math.random() < 0.3)
+                        maze.maze[i][j] = 0;
+                    else
+                        maze.maze[i][j] = 1;
+
+                }
+            }
     }
 }
