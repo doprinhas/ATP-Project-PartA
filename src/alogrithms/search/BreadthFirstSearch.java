@@ -9,11 +9,19 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     @Override
     public Solution solve(ISearchable s) {
 
+        if (s == null)
+            return null;
+
+        return null;
+    }
+
+    private AState solve(AState state){
+
         return null;
     }
 
     @Override
-    public int getNumberofVisitedNodes() {
+    public int getNumbreofVisitedNodes() {
         return 0;
     }
 }
