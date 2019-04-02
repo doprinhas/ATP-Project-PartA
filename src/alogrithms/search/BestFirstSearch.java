@@ -1,4 +1,4 @@
 package alogrithms.search;
 
-public class BestFirstSearch {
+public class BestFirstSearch extends BreadthFirstSearch {
 }

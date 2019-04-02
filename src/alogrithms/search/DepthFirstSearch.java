@@ -1,4 +1,4 @@
 package alogrithms.search;
 
-public class DepthFirstSearch {
+public class DepthFirstSearch implements ISearchingAlgorithm {
 }

@@ -1,4 +1,4 @@
 package alogrithms.search;
 
-public class ASearchingAlgorithm {
+public class ASearchingAlgorithm implements ISearchingAlgorithm {
 }
