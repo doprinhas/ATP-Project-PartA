@@ -2,9 +2,11 @@ package alogrithms.search;
 
 import alogrithms.mazeGenerators.Maze;
 
+import java.util.ArrayList;
+
 public class SearchableMaze implements ISearchable{
 
-    Maze m_maze;
+    private Maze m_maze;
 
     SearchableMaze(Maze maze){
 
@@ -13,4 +15,18 @@ public class SearchableMaze implements ISearchable{
 
     }
 
+    @Override
+    public AState getStartState() {
+        return null;
+    }
+
+    @Override
+    public AState getGoalState() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<AState> getAllSuccessors(AState s) {
+        return null;
+    }
 }
