@@ -1,7 +1,15 @@
 package alogrithms.search;
 
-public class MazeState {
+import alogrithms.mazeGenerators.Position;
 
-    private AState m_state;
+public class MazeState extends AState{
+
+    MazeState(Position position , double coast){
+        super(position, coast);
+    }
+
+    MazeState(Position position){
+        super(position);
+    }
 
 }
