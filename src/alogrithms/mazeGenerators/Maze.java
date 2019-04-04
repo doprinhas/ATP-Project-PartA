@@ -2,6 +2,8 @@ package alogrithms.mazeGenerators;
 
 import javafx.geometry.Pos;
 
+import java.util.ArrayList;
+
 public class Maze {
 
     protected int maze[][];
@@ -154,4 +156,82 @@ public class Maze {
                 System.out.println(" " + "\u001B[107m");
             }*/
     }
+
+    /**
+     * This function returns all possible neighbors for a curtain position
+     * in clock wise order
+     * @param curr_p
+     * @return neighbors of a curtain position
+     */
+    public ArrayList<Position> getNeighbors(Position curr_p){
+
+        if (curr_p == null || getValue(curr_p) == 1)
+            return null;
+
+        ArrayList<Position> neighbors = new ArrayList<>();
+        int curr_row = curr_p.getRowIndex();
+        int curr_col = curr_p.getColumnIndex();
+        boolean isAdded = false;
+
+        if (addPositionToNeighbors(neighbors, curr_row -1, curr_col))
+            isAdded = addPositionToNeighbors(neighbors, curr_row -1, curr_col +1);
+
+        //adds the up right neighbor if it is possible to get to him from the right neighbor
+        if (!isAdded && isAPass(curr_row , curr_col +1 ))
+            addPositionToNeighbors(neighbors, curr_row - 1, curr_col + 1);
+
+        if (addPositionToNeighbors(neighbors, curr_row, curr_col + 1))
+            isAdded = addPositionToNeighbors(neighbors, curr_row + 1, curr_col + 1);
+
+        //adds the bottom right neighbor if it is possible to get to him from the bottom neighbor
+        if (!isAdded && isAPass(curr_row + 1, curr_col))
+            addPositionToNeighbors(neighbors, curr_row + 1, curr_col + 1);
+
+        if (addPositionToNeighbors(neighbors, curr_row + 1, curr_col))
+            isAdded = addPositionToNeighbors(neighbors, curr_row + 1, curr_col -1);
+
+        //adds the bottom left neighbor if it is possible to get to him from the left neighbor
+        if (!isAdded && isAPass(curr_row, curr_col - 1))
+            addPositionToNeighbors(neighbors, curr_row + 1, curr_col - 1);
+
+        isAdded = addPositionToNeighbors(neighbors, curr_row, curr_col - 1) ||
+                isAPass(curr_row -1 , curr_col);
+
+        //adds the bottom left neighbor if it is possible to get to him from the left neighbor
+        if (isAdded)
+            addPositionToNeighbors(neighbors, curr_row - 1, curr_col - 1);
+
+        return neighbors;
+    }
+
+    /**
+     * This function checks is a curtain position is a pass
+     * @param row
+     * @param col
+     * @return
+     */
+    private boolean isAPass(int row , int col){
+
+        if(row >= 0 && row < mRows && col >= 0 &&  col < mColumns)
+            return maze[row][col] == 0;
+
+        return false;
+    }
+
+    /**
+     * This function adds a new neighbor to the list if it is possible
+     * @param neighbors
+     * @param row
+     * @param col
+     * @return
+     */
+    private boolean addPositionToNeighbors(ArrayList<Position> neighbors , int row , int col){
+        if (isAPass(row, col)) {
+            Position p = new Position(row, col);
+            neighbors.add(p);
+            return true;
+        }
+        return false;
+    }
+
 }

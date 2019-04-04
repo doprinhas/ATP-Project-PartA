@@ -17,16 +17,20 @@ public class SearchableMaze implements ISearchable{
 
     @Override
     public AState getStartState() {
-        return null;
+        MazeState state = new MazeState(m_maze.getStartPosition());
+        return state;
     }
 
     @Override
     public AState getGoalState() {
-        return null;
+        MazeState state = new MazeState(m_maze.getGoalPosition());
+        return state;
     }
 
     @Override
     public ArrayList<AState> getAllSuccessors(AState s) {
+        ArrayList<AState> successors = new ArrayList<>();
+
         return null;
     }
 }
