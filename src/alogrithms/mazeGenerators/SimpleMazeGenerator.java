@@ -2,10 +2,16 @@ package alogrithms.mazeGenerators;
 
 import javafx.geometry.Pos;
 
+/**
+ * The class generates simple mazes.
+ */
 public class SimpleMazeGenerator extends AMazeGenerator {
 
     public Maze generate(int rows, int columns)
     {
+        if(rows < 2 || columns < 2){
+            return null;
+        }
         Maze simpleMaze = new Maze(rows, columns);
         for(int i=0; i<rows; i++)
             for(int j=0; j<columns; j++) {
@@ -16,6 +22,10 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         return simpleMaze;
     }
 
+    /**
+     * Find a path from starting point to ending point in full-of-walls maze by going only down and right
+     * @param maze Maze to find a path in
+     */
     void findPath(Maze maze){
         Position position = new Position(0,0);
         maze.setValue(position, 0);
@@ -35,6 +45,10 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         }
     }
 
+    /**
+     * Randomly putting walls in the maze
+     * @param maze Maze to put walls in
+     */
     void randomWalls(Maze maze){
         for(int i=0; i<maze.getRows(); i++)
             for(int j=0; j<maze.getColumns(); j++) {
