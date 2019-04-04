@@ -17,7 +17,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
             return null;
 
         AState state = solve(prob.getStartState());
-        return new Solution(getSolutionPath(state));
+        return new Solution(super.getSolutionPath(state));
     }
 
     /**

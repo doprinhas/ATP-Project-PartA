@@ -28,9 +28,21 @@ public class SearchableMaze implements ISearchable{
     }
 
     @Override
-    public ArrayList<AState> getAllSuccessors(AState s) {
-        ArrayList<AState> successors = new ArrayList<>();
+    public ArrayList<AState> getAllSuccessors(AState curr_state) {
 
-        return null;
+        if (curr_state == null)
+            return null;
+
+        ArrayList<Object> successors = m_maze.getNeighbors(curr_state.m_state);
+        ArrayList<AState> AState_successors = new ArrayList<>();
+        AState tmp_state;
+
+        for (Object successor: successors) {
+            if (!curr_state.getPrev().equals(successor)){
+                AState_successors.add(new MazeState(successor , curr_state , -1));
+
+            }
+        }
+        return AState_successors;
     }
 }

@@ -20,7 +20,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
             return null;
 
         AState state = solve(prob.getStartState());
-        return new Solution(getSolutionPath(state));
+        return new Solution(super.getSolutionPath(state));
     }
     /**
      * help function that implements the BFS algorithm

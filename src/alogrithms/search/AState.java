@@ -2,16 +2,18 @@ package alogrithms.search;
 
 public abstract class AState {
 
-    private Object m_state;
-    private AState m_prev;
-    private boolean m_isDiscoverd;
-    private double m_coast;
+    protected Object m_state;
+    protected AState m_prev;
+    protected boolean m_isDiscoverd;
+    protected double m_coast;
 
+
+    protected AState(){}
     /**
      * constructor for a state
      * @param o
      */
-    AState (Object o){
+    public AState (Object o){
 
         if (o != null){
             m_state = o;
@@ -22,11 +24,25 @@ public abstract class AState {
     }
 
     /**
+     * constructor for a state
+     * @param o
+     */
+    public AState (Object o, AState prev , double coast){
+
+        if (o != null && prev != null){
+            m_state = o;
+            m_prev = prev;
+            m_coast = coast;
+            m_isDiscoverd = false;
+        }
+    }
+
+    /**
      * constructor for a weight state
      * @param o
      * @param coast
      */
-    AState (Object o, double coast){
+    public AState (Object o, double coast){
 
         if (o != null){
             m_state = o;

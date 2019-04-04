@@ -163,14 +163,14 @@ public class Maze {
      * @param curr_p
      * @return neighbors of a curtain position
      */
-    public ArrayList<Position> getNeighbors(Position curr_p){
+    public ArrayList<Object> getNeighbors(Object curr_p){
 
-        if (curr_p == null || getValue(curr_p) == 1)
+        if (curr_p == null || curr_p instanceof Position || getValue((Position)curr_p) == 1)
             return null;
 
-        ArrayList<Position> neighbors = new ArrayList<>();
-        int curr_row = curr_p.getRowIndex();
-        int curr_col = curr_p.getColumnIndex();
+        ArrayList<Object> neighbors = new ArrayList<>();
+        int curr_row = ((Position)curr_p).getRowIndex();
+        int curr_col = ((Position)curr_p).getColumnIndex();
         boolean isAdded = false;
 
         if (addPositionToNeighbors(neighbors, curr_row -1, curr_col))
@@ -225,7 +225,7 @@ public class Maze {
      * @param col
      * @return
      */
-    private boolean addPositionToNeighbors(ArrayList<Position> neighbors , int row , int col){
+    private boolean addPositionToNeighbors(ArrayList<Object> neighbors , int row , int col){
         if (isAPass(row, col)) {
             Position p = new Position(row, col);
             neighbors.add(p);

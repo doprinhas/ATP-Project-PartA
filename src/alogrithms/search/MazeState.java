@@ -4,12 +4,23 @@ import alogrithms.mazeGenerators.Position;
 
 public class MazeState extends AState{
 
-    MazeState(Position position , double coast){
+    public MazeState (Object o, AState prev , double coast){
+        super(o , prev , coast);
+    }
+
+    public MazeState(Position position , double coast){
         super(position, coast);
     }
 
-    MazeState(Position position){
+    public MazeState(Position position){
         super(position);
+    }
+
+    public MazeState(AState state){
+        this.m_state = state.m_state;
+        this.m_prev = state.m_prev;
+        this.m_coast = state.m_coast;
+        this.m_isDiscoverd = state.m_isDiscoverd;
     }
 
 }
