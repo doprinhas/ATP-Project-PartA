@@ -163,9 +163,9 @@ public class Maze {
      * @param curr_p
      * @return neighbors of a curtain position
      */
-    public ArrayList<Object> getNeighbors(Object curr_p){
+/*    public ArrayList<Object> getNeighbors(Object curr_p){
 
-        if (curr_p == null || curr_p instanceof Position || getValue((Position)curr_p) == 1)
+        if (curr_p == null || !(curr_p instanceof Position) || getValue((Position)curr_p) == 1)
             return null;
 
         ArrayList<Object> neighbors = new ArrayList<>();
@@ -202,7 +202,7 @@ public class Maze {
             addPositionToNeighbors(neighbors, curr_row - 1, curr_col - 1);
 
         return neighbors;
-    }
+    }*/
 
     /**
      * This function checks is a curtain position is a pass
@@ -210,7 +210,7 @@ public class Maze {
      * @param col
      * @return
      */
-    private boolean isAPass(int row , int col){
+    public boolean isAPass(int row , int col){
 
         if(row >= 0 && row < mRows && col >= 0 &&  col < mColumns)
             return maze[row][col] == 0;
@@ -218,20 +218,11 @@ public class Maze {
         return false;
     }
 
-    /**
-     * This function adds a new neighbor to the list if it is possible
-     * @param neighbors
-     * @param row
-     * @param col
-     * @return
-     */
-    private boolean addPositionToNeighbors(ArrayList<Object> neighbors , int row , int col){
-        if (isAPass(row, col)) {
-            Position p = new Position(row, col);
-            neighbors.add(p);
-            return true;
-        }
-        return false;
+
+    public Object getPosition(int row , int col){
+
+        return new Position(row, col);
+
     }
 
 }

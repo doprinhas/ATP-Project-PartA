@@ -1,48 +1,84 @@
 package alogrithms.search;
 
 import alogrithms.mazeGenerators.Maze;
+import alogrithms.mazeGenerators.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class SearchableMaze implements ISearchable{
 
     private Maze m_maze;
+    private MazeState m_startState;
+    private MazeState m_goalState;
+    private HashMap<String, MazeState> m_states;
 
-    SearchableMaze(Maze maze){
+    public SearchableMaze(Maze maze){
 
-        if (maze != null)
+        if (maze != null){
             m_maze = maze;
+            m_startState = new MazeState(maze.getStartPosition());
+            m_goalState  = new MazeState(maze.getGoalPosition());
+            m_states = new HashMap<>();
+            String key;
+            for (int i = 0 ; i < maze.getRows() ; i++)
+                for (int j = 0 ; j < maze.getColumns() ; j++)
+                    if (maze.isAPass(i , j)) {
+                        //key = (i,j)
+                        key = "(" + i + "," + j + ")";
+                        m_states.put(key, new MazeState(maze.getPosition(i,j)));
+                    }
 
+        }
     }
 
     @Override
     public AState getStartState() {
-        MazeState state = new MazeState(m_maze.getStartPosition());
-        return state;
+        return m_startState;
     }
 
     @Override
     public AState getGoalState() {
-        MazeState state = new MazeState(m_maze.getGoalPosition());
-        return state;
+        return m_goalState;
     }
 
     @Override
     public ArrayList<AState> getAllSuccessors(AState curr_state) {
 
-        if (curr_state == null)
+        if (curr_state == null || !(curr_state.getM_state() instanceof Position))
             return null;
 
-        ArrayList<Object> successors = m_maze.getNeighbors(curr_state.m_state);
-        ArrayList<AState> AState_successors = new ArrayList<>();
-        AState tmp_state;
+        int curr_row = ((Position) curr_state.getM_state()).getRowIndex();
+        int curr_col = ((Position) curr_state.getM_state()).getColumnIndex();
 
-        for (Object successor: successors) {
-            if (!curr_state.getPrev().equals(successor)){
-                AState_successors.add(new MazeState(successor , curr_state , -1));
+        ArrayList<AState> successors = new ArrayList<>();
+        ArrayList<String> keys = new ArrayList<>();
 
+        keys.add(getKey(curr_row - 1, curr_col));
+        keys.add(getKey(curr_row - 1, curr_col + 1));
+        keys.add(getKey(curr_row , curr_col +1));
+        keys.add(getKey(curr_row + 1, curr_col + 1));
+        keys.add(getKey(curr_row + 1, curr_col));
+        keys.add(getKey(curr_row + 1, curr_col - 1));
+        keys.add(getKey(curr_row , curr_col - 1));
+        keys.add(getKey(curr_row - 1, curr_col - 1));
+
+        for (String key: keys) {
+            if (m_states.containsKey(key))
+                successors.add(m_states.get(key));
+        }
+
+        for (AState successor: successors) {
+            if (curr_state.getPrev() != null && curr_state.getPrev().equals(successor)){
+                successors.remove(successor);
+                break;
             }
         }
-        return AState_successors;
+        return successors;
+    }
+
+    private String getKey(int row, int col){
+        return "(" + row + "," + col + ")";
     }
 }

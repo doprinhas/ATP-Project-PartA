@@ -8,7 +8,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
     protected int evaluatedNodes;
 
     ASearchingAlgorithm(ISearchable prob){
-        if (m_prob != null) {
+        if (prob != null) {
             m_prob = prob;
             evaluatedNodes = 0;
         }
