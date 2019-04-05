@@ -10,6 +10,8 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         super(null);
     }
 
+    public String getName(){ return "Depth First Search"; }
+
     public DepthFirstSearch(ISearchable prob) {
         super(prob);
     }

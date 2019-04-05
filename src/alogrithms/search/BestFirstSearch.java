@@ -6,10 +6,11 @@ import java.util.PriorityQueue;
 
 public class BestFirstSearch extends BreadthFirstSearch {
 
-    BestFirstSearch(ISearchable prob) {
-        super(prob);
+    public BestFirstSearch() {
+        super();
     }
 
+    public String getName(){ return "Best First Search"; }
     /**
      * This function solve a searchable problem with Breadth first search algorithm
      * @param prob - object that implements searchable interface

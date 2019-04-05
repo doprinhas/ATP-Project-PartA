@@ -5,8 +5,10 @@ import java.util.*;
 public class BreadthFirstSearch extends ASearchingAlgorithm{
 
     public BreadthFirstSearch(){
-        super(null);
+        super();
     }
+
+    public String getName(){ return "Breadth First Search"; }
 
     public BreadthFirstSearch(ISearchable prob) {
         super(prob);

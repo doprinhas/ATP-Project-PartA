@@ -93,4 +93,9 @@ public abstract class AState {
 
         return m_state.equals(((AState)obj).m_state);
     }
+
+    @Override
+    public String toString() {
+        return this.m_state.toString();
+    }
 }
