@@ -8,7 +8,7 @@ public class SearchableMaze implements ISearchable{
 
     private Maze m_maze;
 
-    SearchableMaze(Maze maze){
+    public SearchableMaze(Maze maze){
 
         if (maze != null)
             m_maze = maze;

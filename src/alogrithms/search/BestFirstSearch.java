@@ -2,7 +2,7 @@ package alogrithms.search;
 
 public class BestFirstSearch extends BreadthFirstSearch {
 
-    BestFirstSearch(ISearchable prob) {
+    public BestFirstSearch(ISearchable prob) {
         super(prob);
     }
 

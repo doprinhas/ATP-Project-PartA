@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm{
 
-    BreadthFirstSearch(ISearchable prob) {
+    public BreadthFirstSearch(ISearchable prob) {
         super(prob);
     }
 

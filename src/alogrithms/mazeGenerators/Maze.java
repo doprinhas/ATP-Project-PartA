@@ -144,7 +144,7 @@ public class Maze {
             }
             System.out.println();
         }
-        /*    for (int i = 0; i < maze.length; i++) {
+            for (int i = 0; i < maze.length; i++) {
                 for (int j = 0; j < maze[i].length; j++) {
                     if (i == startPos.getRowIndex() && j == startPos.getColumnIndex()) {//startPosition
                         System.out.print(" " + "\u001B[44m" + " ");
@@ -154,7 +154,7 @@ public class Maze {
                     else System.out.print(" " + "\u001B[107m" + " ");
                 }
                 System.out.println(" " + "\u001B[107m");
-            }*/
+            }
     }
 
     /**

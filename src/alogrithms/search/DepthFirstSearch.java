@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class DepthFirstSearch extends ASearchingAlgorithm {
 
-    DepthFirstSearch(ISearchable prob) {
+    public DepthFirstSearch(ISearchable prob) {
         super(prob);
     }
 
