@@ -20,7 +20,7 @@ public class MazeState extends AState{
         this.m_state = state.m_state;
         this.m_prev = state.m_prev;
         this.m_coast = state.m_coast;
-        this.m_isDiscoverd = state.m_isDiscoverd;
+        this.m_pathCoast = state.m_pathCoast;
     }
 
 }

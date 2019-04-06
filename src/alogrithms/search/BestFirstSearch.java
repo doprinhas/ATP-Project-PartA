@@ -1,8 +1,6 @@
 package alogrithms.search;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class BestFirstSearch extends BreadthFirstSearch {
 
@@ -22,37 +20,45 @@ public class BestFirstSearch extends BreadthFirstSearch {
         if (prob == null)
             return null;
 
-        AState state = solve(prob.getStartState());
+        Comparator<AState> pathSorter = Comparator.comparing(AState::getM_pathCoast);
+        PriorityQueue<AState> queue = new PriorityQueue<>(pathSorter);
+        queue.add(prob.getStartState());
+
+        AState state = solve(prob, queue);
         return new Solution(super.getSolutionPath(state));
     }
-    /**
+/*    *//**
      * help function that implements the BFS algorithm
      * and returns the last state (Goal state)
-     */
-    private AState solve(AState state){
-        PriorityQueue<AState> list = new PriorityQueue<>();
-        list.add(state);
+     *//*
+    private AState solve(AState state, ISearchable prob) {
+
+        HashMap<String , AState> close = new HashMap<>();
+        queue.add(state);
 
         ArrayList<AState> successors;
         AState curr_state;
+        AState removedState;
+        double currPathCoast;
         //BFS
-//        while (!list.isEmpty()){
-//            curr_state = list.remove();
-//            if (curr_state.equals(m_prob.getGoalState()))
-//                return curr_state;
-//            else{
-//                successors = m_prob.getAllSuccessors(curr_state);
-//                for (AState s: successors) {
-//                    if (!s.getM_isDiscoverd()){
-//                        s.setM_isDiscoverd(true);
-//                        s.setPrev(curr_state);
-//                        list.add(s);
-//                        evaluatedNodes++;
-//                    }
-//                }
-//            }
-//        }
+        while (!queue.isEmpty()) {
+            curr_state = queue.remove();
+            if (curr_state.equals(prob.getGoalState()))
+                return curr_state;
+            else{
+                successors = prob.getAllSuccessors(curr_state);
+                for (AState s: successors) {
+                    if (!m_states.containsKey(s.toString())){
+                        s.setPrev(curr_state);
+                        m_states.put(s.toString() , s);
+                        queue.add(s);
+                        evaluatedNodes++;
+                    }
+                }
+            }
+
+        }
         return null;
-    }
+    }*/
 
 }

@@ -4,9 +4,8 @@ public abstract class AState {
 
     protected Object m_state;
     protected AState m_prev;
-    protected boolean m_isDiscoverd;
     protected double m_coast;
-
+    protected double m_pathCoast;
 
     protected AState(){}
     /**
@@ -19,7 +18,6 @@ public abstract class AState {
             m_state = o;
             m_prev = null;
             m_coast = -1;
-            m_isDiscoverd = false;
         }
     }
 
@@ -33,7 +31,6 @@ public abstract class AState {
             m_state = o;
             m_prev = prev;
             m_coast = coast;
-            m_isDiscoverd = false;
         }
     }
 
@@ -48,7 +45,6 @@ public abstract class AState {
             m_state = o;
             m_prev = null;
             m_coast = coast;
-            m_isDiscoverd = false;
         }
     }
 
@@ -60,7 +56,6 @@ public abstract class AState {
         return m_prev;
     }
 
-
     /**
      * set new previous state
      * @param prev
@@ -69,16 +64,24 @@ public abstract class AState {
         m_prev = prev;
     }
 
-    public void setM_isDiscoverd(boolean m_isDiscoverd) {
-        this.m_isDiscoverd = m_isDiscoverd;
-    }
-
-    public boolean getM_isDiscoverd() {
-        return m_isDiscoverd;
-    }
 
     public Object getM_state(){ return m_state; }
 
+    public void setM_pathCoast(double coast){
+        m_pathCoast = coast;
+    }
+
+    public double getM_pathCoast() {
+        return m_pathCoast;
+    }
+
+    public double getM_coast() {
+        return m_coast;
+    }
+
+    public void setM_coast(double m_coast) {
+        this.m_coast = m_coast;
+    }
 
     /**
      * compare between two states

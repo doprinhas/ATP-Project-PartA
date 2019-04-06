@@ -1,20 +1,17 @@
 package alogrithms.search;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class DepthFirstSearch extends ASearchingAlgorithm {
 
     public DepthFirstSearch(){
-        super(null);
+        super();
+        m_states = new HashMap<>();
     }
 
     public String getName(){ return "Depth First Search"; }
 
-    public DepthFirstSearch(ISearchable prob) {
-        super(prob);
-    }
 
     @Override
     public Solution solve(ISearchable prob) {
@@ -22,7 +19,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         if (prob == null)
             return null;
 
-        AState state = solve(prob.getStartState());
+        AState state = solve(prob , prob.getStartState());
         return new Solution(super.getSolutionPath(state));
     }
 
@@ -30,19 +27,27 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
      * help function that implements the DFS algorithm
      * and returns the last state (Goal state)
      */
-    private AState solve(AState state){
+    private AState solve(ISearchable prob , AState state){
 
         Stack<AState> stack = new Stack<>();
         stack.push(state);
 
-        AState curr_state = null;
+        AState curr_state;
 
         while (!stack.isEmpty()){
             curr_state = stack.pop();
-            if (!curr_state.getM_isDiscoverd()){
-                curr_state.setM_isDiscoverd(true);
-                for (AState s: m_prob.getAllSuccessors(curr_state)) {
-                    stack.push(s);
+            if (curr_state.equals(prob.getGoalState()))
+                return curr_state;
+            else {
+                if (!m_states.containsKey(curr_state.toString())) {
+                    m_states.put(curr_state.toString() , curr_state);
+                    for (AState s : prob.getAllSuccessors(curr_state)) {
+                        if (!m_states.containsKey(s.toString())) {
+                            s.setPrev(curr_state);
+                            stack.push(s);
+                            evaluatedNodes++;
+                        }
+                    }
                 }
             }
         }

@@ -1,24 +1,16 @@
 package alogrithms.search;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
 
-    protected ISearchable m_prob;
     protected int evaluatedNodes;
-
+    protected HashMap<String, AState> m_states;
 
     protected ASearchingAlgorithm(){
-        m_prob = null;
+        m_states = new HashMap<>();
         evaluatedNodes = 0;
-
-    }
-
-    protected ASearchingAlgorithm(ISearchable prob){
-        if (prob != null) {
-            m_prob = prob;
-            evaluatedNodes = 0;
-        }
     }
 
     public int getNumberOfNodesEvaluated(){
