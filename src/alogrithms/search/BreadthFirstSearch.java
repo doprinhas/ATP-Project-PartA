@@ -6,13 +6,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
 
     public BreadthFirstSearch(){
         super();
+        m_states = new HashMap<>();
     }
 
     public String getName(){ return "Breadth First Search"; }
-
-    public BreadthFirstSearch(ISearchable prob) {
-        super(prob);
-    }
 
     /**
      * This function solve a searchable problem with Breadth first search algorithm
@@ -46,8 +43,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
             else{
                 successors = prob.getAllSuccessors(curr_state);
                for (AState s: successors) {
-                   if (!s.getM_isDiscoverd()){
-                       s.setM_isDiscoverd(true);
+                   if (!m_states.containsKey(s.toString())){
+                       m_states.put(s.toString() , s);
                        s.setPrev(curr_state);
                        list.add(s);
                        evaluatedNodes++;

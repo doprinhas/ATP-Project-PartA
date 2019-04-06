@@ -65,7 +65,7 @@ public class SearchableMaze implements ISearchable{
         keys.add(getKey(curr_row - 1, curr_col - 1));
 
         for (String key: keys) {
-            if (m_states.containsKey(key))
+            if (m_states.containsKey(key) && m_states.get(key).m_isDiscoverd == false)
                 successors.add(m_states.get(key));
         }
 
