@@ -4,6 +4,12 @@ import java.util.*;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm{
 
+    public BreadthFirstSearch(){
+        super();
+    }
+
+    public String getName(){ return "Breadth First Search"; }
+
     public BreadthFirstSearch(ISearchable prob) {
         super(prob);
     }
@@ -19,14 +25,14 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
         if (prob == null)
             return null;
 
-        AState state = solve(prob.getStartState());
+        AState state = solve(prob.getStartState() , prob);
         return new Solution(super.getSolutionPath(state));
     }
     /**
      * help function that implements the BFS algorithm
      * and returns the last state (Goal state)
      */
-    private AState solve(AState state){
+    private AState solve(AState state, ISearchable prob){
         LinkedList<AState> list = new LinkedList<>();
         list.add(state);
 
@@ -35,10 +41,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
         //BFS
         while (!list.isEmpty()){
             curr_state = list.removeFirst();
-           if (curr_state.equals(m_prob.getGoalState()))
+           if (curr_state.equals(prob.getGoalState()))
                return curr_state;
             else{
-                successors = m_prob.getAllSuccessors(curr_state);
+                successors = prob.getAllSuccessors(curr_state);
                for (AState s: successors) {
                    if (!s.getM_isDiscoverd()){
                        s.setM_isDiscoverd(true);

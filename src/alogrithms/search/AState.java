@@ -77,6 +77,8 @@ public abstract class AState {
         return m_isDiscoverd;
     }
 
+    public Object getM_state(){ return m_state; }
+
 
     /**
      * compare between two states
@@ -86,9 +88,14 @@ public abstract class AState {
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null)
+        if (obj == null || !(obj instanceof AState))
             return false;
 
-        return m_state.equals(obj);
+        return m_state.equals(((AState)obj).m_state);
+    }
+
+    @Override
+    public String toString() {
+        return this.m_state.toString();
     }
 }

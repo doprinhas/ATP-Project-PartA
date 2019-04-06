@@ -8,11 +8,11 @@ public class MazeState extends AState{
         super(o , prev , coast);
     }
 
-    public MazeState(Position position , double coast){
+    public MazeState(Object position , double coast){
         super(position, coast);
     }
 
-    public MazeState(Position position){
+    public MazeState(Object position){
         super(position);
     }
 

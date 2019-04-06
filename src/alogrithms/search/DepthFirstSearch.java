@@ -6,6 +6,12 @@ import java.util.Stack;
 
 public class DepthFirstSearch extends ASearchingAlgorithm {
 
+    public DepthFirstSearch(){
+        super(null);
+    }
+
+    public String getName(){ return "Depth First Search"; }
+
     public DepthFirstSearch(ISearchable prob) {
         super(prob);
     }

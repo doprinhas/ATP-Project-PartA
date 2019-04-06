@@ -7,8 +7,15 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
     protected ISearchable m_prob;
     protected int evaluatedNodes;
 
-    ASearchingAlgorithm(ISearchable prob){
-        if (m_prob != null) {
+
+    protected ASearchingAlgorithm(){
+        m_prob = null;
+        evaluatedNodes = 0;
+
+    }
+
+    protected ASearchingAlgorithm(ISearchable prob){
+        if (prob != null) {
             m_prob = prob;
             evaluatedNodes = 0;
         }
@@ -18,19 +25,19 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
         return evaluatedNodes;
     }
 
-    public String getName(){
-        return "";
-    }
+    public abstract String getName();
+
+
 
     protected ArrayList<AState> getSolutionPath(AState state){
 
         ArrayList<AState> result_path = new ArrayList<>();
 
-        while (!state.equals(m_prob.getStartState())){
+        while (state.getPrev() != null){
             result_path.add(0 , state);
             state = state.getPrev();
         }
-
+        result_path.add(0 , state);
         return result_path;
     }
 
