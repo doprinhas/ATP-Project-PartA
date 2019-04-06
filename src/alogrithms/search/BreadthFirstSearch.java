@@ -22,31 +22,31 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
         if (prob == null)
             return null;
 
-        AState state = solve(prob.getStartState() , prob);
+        Queue<AState> queue = new LinkedList<>();
+        queue.add(prob.getStartState());
+
+        AState state = solve(prob, queue);
         return new Solution(super.getSolutionPath(state));
     }
     /**
      * help function that implements the BFS algorithm
      * and returns the last state (Goal state)
      */
-    private AState solve(AState state, ISearchable prob){
-        LinkedList<AState> list = new LinkedList<>();
-        list.add(state);
-
+    protected AState solve(ISearchable prob, Queue<AState> queue){
         ArrayList<AState> successors;
         AState curr_state;
         //BFS
-        while (!list.isEmpty()){
-            curr_state = list.removeFirst();
+        while (!queue.isEmpty()){
+            curr_state = queue.remove();
            if (curr_state.equals(prob.getGoalState()))
                return curr_state;
             else{
                 successors = prob.getAllSuccessors(curr_state);
                for (AState s: successors) {
                    if (!m_states.containsKey(s.toString())){
-                       m_states.put(s.toString() , s);
                        s.setPrev(curr_state);
-                       list.add(s);
+                       m_states.put(s.toString() , s);
+                       queue.add(s);
                        evaluatedNodes++;
                    }
                }

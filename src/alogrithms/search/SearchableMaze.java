@@ -27,8 +27,11 @@ public class SearchableMaze implements ISearchable{
                     if (maze.isAPass(i , j)) {
                         //key = (i,j)
                         key = "(" + i + "," + j + ")";
-                        m_states.put(key, new MazeState(maze.getPosition(i,j)));
+                        MazeState ms = new MazeState(maze.getPosition(i,j));
+                        ms.setM_pathCoast(Double.POSITIVE_INFINITY);
+                        m_states.put(key, ms);
                     }
+            m_states.get("(0,0)").setM_pathCoast(0);
 
         }
     }
@@ -65,8 +68,8 @@ public class SearchableMaze implements ISearchable{
         keys.add(getKey(curr_row - 1, curr_col - 1));
 
         for (String key: keys) {
-            if (m_states.containsKey(key) && m_states.get(key).m_isDiscoverd == false)
-                successors.add(m_states.get(key));
+            if (m_states.containsKey(key))
+                successors.add(new MazeState(m_states.get(key)));
         }
 
         for (AState successor: successors) {
@@ -75,10 +78,31 @@ public class SearchableMaze implements ISearchable{
                 break;
             }
         }
+        setCoast(successors , curr_row , curr_col);
         return successors;
     }
 
     private String getKey(int row, int col){
         return "(" + row + "," + col + ")";
     }
+
+    private void setCoast(ArrayList<AState> successors, int row , int col){
+
+        ArrayList<String> keys = new ArrayList<>();
+
+        keys.add(getKey(row - 1, col + 1));
+        keys.add(getKey(row + 1, col + 1));
+        keys.add(getKey(row + 1, col - 1));
+        keys.add(getKey(row - 1, col - 1));
+
+        for (AState s: successors) {
+            for (String key: keys) {
+                if (s.equals(m_states.get(key)))
+                    s.setM_coast(15);
+                else
+                    s.setM_coast(10);
+            }
+        }
+    }
+
 }
