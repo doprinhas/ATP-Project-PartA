@@ -9,7 +9,7 @@ public abstract class AState {
 
     protected AState(){}
     /**
-     * constructor for a state
+     * AState Constructor
      * @param o
      */
     public AState (Object o){
@@ -22,10 +22,13 @@ public abstract class AState {
     }
 
     /**
-     * constructor for a state
-     * @param o
+     * AState Constructor - that gets a curtain problem state
+     * a previous state and a coast to get to get to that curtain state
+     * @param o - problem state ,
+     * @param prev - previous state ,
+     * @param coast - coast to the current state
      */
-    public AState (Object o, AState prev , double coast){
+    public AState(Object o, AState prev , double coast){
 
         if (o != null && prev != null){
             m_state = o;
@@ -35,9 +38,10 @@ public abstract class AState {
     }
 
     /**
-     * constructor for a weight state
-     * @param o
-     * @param coast
+     * AState Constructor - that gets a curtain problem state
+     * a previous state and a coast to get to get to that curtain state
+     * @param o - problem state
+     * @param coast - coast to the current state
      */
     public AState (Object o, double coast){
 
@@ -49,8 +53,8 @@ public abstract class AState {
     }
 
     /**
-     * returns the previous state
-     * @return
+     * Returns the previous state
+     * @return previous state
      */
     public AState getPrev() {
         return m_prev;

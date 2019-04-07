@@ -22,6 +22,7 @@ public class BestFirstSearch extends BreadthFirstSearch {
 
         if (prob == null)
             return null;
+        resetProb();
 
         Comparator<AState> pathSorter = Comparator.comparing(AState::getM_pathCoast);
         PriorityQueue<AState> queue = new PriorityQueue<>(pathSorter);

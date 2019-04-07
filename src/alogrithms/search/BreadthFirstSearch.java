@@ -21,6 +21,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
 
         if (prob == null)
             return null;
+        resetProb();
 
         Queue<AState> queue = new LinkedList<>();
         queue.add(prob.getStartState());
