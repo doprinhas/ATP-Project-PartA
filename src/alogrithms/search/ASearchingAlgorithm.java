@@ -19,9 +19,10 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
 
     public abstract String getName();
 
-
-
     protected ArrayList<AState> getSolutionPath(AState state){
+
+        if (state == null)
+            return null;
 
         ArrayList<AState> result_path = new ArrayList<>();
 
