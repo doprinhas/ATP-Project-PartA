@@ -5,7 +5,6 @@ import alogrithms.search.AState;
 import alogrithms.search.BestFirstSearch;
 import alogrithms.search.SearchableMaze;
 import alogrithms.search.Solution;
-import javafx.geometry.Pos;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,41 +12,42 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JUnitTestingBestFirstSearch {
-    AMazeGenerator m_gEmpty = new EmptyMazeGenerator();
-    AMazeGenerator m_gSimple = new SimpleMazeGenerator();
-    AMazeGenerator m_gMy = new MyMazeGenerator();
+    private AMazeGenerator m_gEmpty = new EmptyMazeGenerator();
+    private AMazeGenerator m_gSimple = new SimpleMazeGenerator();
+    private AMazeGenerator m_gMy = new MyMazeGenerator();
     // Empty maze
-    Maze emptySmallMaze = m_gEmpty.generate(11, 55);
-    Maze emptyBigMaze = m_gEmpty.generate(1000, 1000);
-    Maze emptyWrongMaze = m_gEmpty.generate(-10, -10);
-    SearchableMaze s_mSmallEmpty = new SearchableMaze(emptySmallMaze);
-    SearchableMaze s_mBigEmpty = new SearchableMaze(emptyBigMaze);
-    SearchableMaze s_mWrongEmpty = new SearchableMaze(emptyWrongMaze);
+    private Maze emptySmallMaze = m_gEmpty.generate(11, 55);
+    private Maze emptyBigMaze = m_gEmpty.generate(1000, 1000);
+    private Maze emptyWrongMaze = m_gEmpty.generate(-10, -10);
+    private SearchableMaze s_mSmallEmpty = new SearchableMaze(emptySmallMaze);
+    private SearchableMaze s_mBigEmpty = new SearchableMaze(emptyBigMaze);
+    private SearchableMaze s_mWrongEmpty = new SearchableMaze(emptyWrongMaze);
 
     // Simple maze
-    Maze simpleSmallMaze = m_gSimple.generate(55, 11);
-    Maze simpleBigMaze = m_gSimple.generate(1000, 750);
-    Maze simpleWrongMaze = m_gSimple.generate(-10, -10);
-    SearchableMaze s_mSmallSimple = new SearchableMaze(simpleSmallMaze);
-    SearchableMaze s_mBigSimple = new SearchableMaze(simpleBigMaze);
-    SearchableMaze s_mWrongSimple = new SearchableMaze(simpleWrongMaze);
+    private Maze simpleSmallMaze = m_gSimple.generate(55, 11);
+    private Maze simpleBigMaze = m_gSimple.generate(1000, 750);
+    private Maze simpleWrongMaze = m_gSimple.generate(-10, -10);
+    private SearchableMaze s_mSmallSimple = new SearchableMaze(simpleSmallMaze);
+    private SearchableMaze s_mBigSimple = new SearchableMaze(simpleBigMaze);
+    private SearchableMaze s_mWrongSimple = new SearchableMaze(simpleWrongMaze);
 
     // My maze
-    Maze MySmallMaze = m_gSimple.generate(9, 61);
-    Maze MyBigMaze = m_gSimple.generate(650, 1000);
-    Maze MyWrongMaze = m_gSimple.generate(-10, -10);
-    SearchableMaze s_mSmallMy = new SearchableMaze(MySmallMaze);
-    SearchableMaze s_mBigMy = new SearchableMaze(MyBigMaze);
-    SearchableMaze s_mWrongMy = new SearchableMaze(MyWrongMaze);
+    private Maze MySmallMaze = m_gMy.generate(9, 61);
+    private Maze MyBigMaze = m_gMy.generate(650, 1000);
+    private Maze MyWrongMaze = m_gMy.generate(-10, -10);
+    private SearchableMaze s_mSmallMy = new SearchableMaze(MySmallMaze);
+    private SearchableMaze s_mBigMy = new SearchableMaze(MyBigMaze);
+    private SearchableMaze s_mWrongMy = new SearchableMaze(MyWrongMaze);
 
-    BestFirstSearch bfs = new BestFirstSearch();
-    Solution sol1;
-    Solution sol2;
+    private BestFirstSearch bfs = new BestFirstSearch();
 
 
     @Test
     @SuppressWarnings("Duplicates")
     void solve() {
+        Solution sol1;
+        Solution sol2;
+
         // Empty maze
         sol1 = bfs.solve(s_mSmallEmpty);
         sol2 = bfs.solve(s_mBigEmpty);
@@ -81,7 +81,7 @@ class JUnitTestingBestFirstSearch {
         ArrayList<AState> solPath = sol.getSolutionPath();
         for (int i=0; i<solPath.size(); i++) {
             AState state = solPath.get(i);
-            Position pos = null;
+            Position pos;
             if(state.getM_state() instanceof  Position)
                 pos = (Position)state.getM_state();
             else
@@ -98,9 +98,7 @@ class JUnitTestingBestFirstSearch {
         }
 
         Position goalPos = (Position)solPath.get(solPath.size()-1).getM_state();
-        if(!goalPos.equals(maze.getGoalPosition()))
-            return false;
+        return goalPos.equals(maze.getGoalPosition());
 
-        return true;
     }
 }

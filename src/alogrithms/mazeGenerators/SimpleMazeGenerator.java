@@ -1,7 +1,5 @@
 package alogrithms.mazeGenerators;
 
-import javafx.geometry.Pos;
-
 /**
  * The class generates simple mazes.
  */
@@ -10,7 +8,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
     public Maze generate(int rows, int columns)
     {
         Maze simpleMaze = new Maze(rows, columns);
-        simpleMaze.setStartPos(0,0);
+        simpleMaze.setStartPos(new Position(0,0));
         for(int i=0; i<rows; i++)
             for(int j=0; j<columns; j++) {
                 simpleMaze.maze[i][j] = 1;
@@ -24,21 +22,21 @@ public class SimpleMazeGenerator extends AMazeGenerator {
      * Find a path from starting point to ending point in full-of-walls maze by going only down and right
      * @param maze Maze to find a path in
      */
-    void findPath(Maze maze){
+    private void findPath(Maze maze){
         Position position = new Position(0,0);
-        maze.setValue(position, 0);
+        maze.breakWall(position);
         while(position.getRowIndex() != maze.getRows()-1 || position.getColumnIndex() != maze.getColumns()-1){
             int random = (int)((Math.random()*2)+1);
             if(random == 1) {
                 if (position.getRowIndex() + 1 < maze.getRows()) {
                     position.setRow(position.getRowIndex() + 1);
-                    maze.setValue(position, 0);
+                    maze.breakWall(position);
                 }
             }
             else
                 if(position.getColumnIndex() + 1 < maze.getColumns()) {
                     position.setColumn(position.getColumnIndex() + 1);
-                    maze.setValue(position, 0);
+                    maze.breakWall(position);
                 }
         }
         maze.setEndPos(position);
@@ -48,7 +46,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
      * Randomly putting walls in the maze
      * @param maze Maze to put walls in
      */
-    void randomWalls(Maze maze){
+    private void randomWalls(Maze maze){
         for(int i=0; i<maze.getRows(); i++)
             for(int j=0; j<maze.getColumns(); j++) {
                 if(maze.maze[i][j] == 1){

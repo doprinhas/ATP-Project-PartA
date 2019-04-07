@@ -1,10 +1,7 @@
 package alogrithms.mazeGenerators;
 
-import javafx.geometry.Pos;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -20,7 +17,7 @@ public class MyMazeGenerator extends AMazeGenerator {
         ArrayList<Wall> wallList = new ArrayList<>();
 
         Position startPos = new Position(0, 0);
-        myMaze.setValue(startPos, 0);
+        myMaze.breakWall(startPos);
         myMaze.setStartPos(startPos);
 
         addWallsToList(startPos, wallList, myMaze);
@@ -30,13 +27,13 @@ public class MyMazeGenerator extends AMazeGenerator {
             int randomWall = rand.nextInt(wallList.size());
             Wall wall = wallList.get(randomWall);
             if(myMaze.getValue(wall.adjCell1) == 0 && myMaze.getValue(wall.adjCell2) == -1){
-                myMaze.setValue(wall.position, 0);
-                myMaze.setValue(wall.adjCell2, 0);
+                myMaze.breakWall(wall.position);
+                myMaze.breakWall(wall.adjCell2);
                 addWallsToList(wall.adjCell2, wallList, myMaze);
             }
             if(myMaze.getValue(wall.adjCell1) == -1 && myMaze.getValue(wall.adjCell2) == 0){
-                myMaze.setValue(wall.position, 0);
-                myMaze.setValue(wall.adjCell1, 0);
+                myMaze.breakWall(wall.position);
+                myMaze.breakWall(wall.adjCell1);
                 addWallsToList(wall.adjCell1, wallList, myMaze);
 
             }
@@ -110,7 +107,7 @@ public class MyMazeGenerator extends AMazeGenerator {
         private Position adjCell1;
         private Position adjCell2;
 
-        public Wall(Position pos){
+        Wall(Position pos){
             this.position = pos;
             if (pos.getRowIndex()%2 != 0){
                 this.adjCell1 = new Position(pos.getRowIndex()-1, pos.getColumnIndex());

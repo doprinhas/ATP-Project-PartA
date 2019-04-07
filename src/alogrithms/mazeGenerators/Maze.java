@@ -1,15 +1,18 @@
 package alogrithms.mazeGenerators;
 
-import javafx.geometry.Pos;
-
 
 public class Maze {
 
-    protected int maze[][];
+    protected int[][] maze;
     private int mRows;
     private int mColumns;
     private Position startPos;
     private Position endPos;
+
+    @SuppressWarnings("unused")
+    private final int WALL_VALUE = 1;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int PASS_VALUE = 0;
 
     public Maze(int rows, int columns)
     {
@@ -50,47 +53,20 @@ public class Maze {
     /**
      * Changes the value of a single cell in the maze to a certain value
      * @param position Represents the cell to change
-     * @param value Represents the value to change the cell to
-     * @return If the value has changed - returns true <br> Other wise - return false
      */
-    public boolean setValue(Position position, int value){
+    void breakWall(Position position){
         if(position.getRowIndex() < 0 || position.getRowIndex() >= this.mRows)
-            return false;
+            return;
         if(position.getColumnIndex() < 0 || position.getColumnIndex() >= this.mColumns)
-            return false;
-        this.maze[position.getRowIndex()][position.getColumnIndex()] = value;
-        return true;
-    }
-
-    /**
-     * Sets the starting position of the maze
-     * @param row The row number of the starting position
-     * @param column The column number of the starting position
-     */
-    public void setStartPos(int row, int column){
-        if(row >= 0 && column >=0 && row<mRows && column<mColumns){
-            this.startPos.setRow(row);
-            this.startPos.setColumn(column);
-        }
-    }
-
-    /**
-     * Sets the goal position of the maze
-     * @param row The row number of the goal position
-     * @param column The column number of the goal position
-     */
-    public void setEndPos(int row, int column){
-        if(row >= 0 && column >=0 && row<mRows && column<mColumns){
-            this.endPos.setRow(row);
-            this.endPos.setColumn(column);
-        }
+            return;
+        this.maze[position.getRowIndex()][position.getColumnIndex()] = PASS_VALUE;
     }
 
     /**
      * Sets the starting position of the maze
      * @param start Represents the desired starting position
      */
-    public void setStartPos(Position start){
+    void setStartPos(Position start){
         if(start != null && start.getRowIndex()<mRows && start.getColumnIndex()<mColumns){
             this.startPos = new Position(start);
         }
@@ -100,7 +76,7 @@ public class Maze {
      * Sets the goal position of the maze
      * @param end Represents the desired goal position
      */
-    public void setEndPos(Position end){
+    void setEndPos(Position end){
         if(end != null && end.getRowIndex()<mRows && end.getColumnIndex()<mColumns){
             this.endPos = new Position(end);
         }
@@ -154,9 +130,9 @@ public class Maze {
 
     /**
      * This function checks is a curtain position is a pass
-     * @param row
-     * @param col
-     * @return
+     * @param row the row number of a certain position
+     * @param col the row number of a certain position
+     * @return True - if the value of the position is 0 <br> False - otherwise
      */
     public boolean isAPass(int row , int col){
 
