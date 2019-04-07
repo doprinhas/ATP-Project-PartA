@@ -5,7 +5,6 @@ import alogrithms.mazeGenerators.Position;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 
 public class SearchableMaze implements ISearchable{
 
@@ -14,6 +13,13 @@ public class SearchableMaze implements ISearchable{
     private MazeState m_goalState;
     private HashMap<String, MazeState> m_states;
 
+    final double DIAGONAL_COAST = 15;
+    final double STRAIGHT_COAST = 10;
+
+    /**
+     * SearchableMaze Constructor
+     * @param maze - Maze Object
+     */
     public SearchableMaze(Maze maze){
 
         if (maze != null){
@@ -36,16 +42,29 @@ public class SearchableMaze implements ISearchable{
         }
     }
 
+    /**
+     * Getter - Returns maze start state
+     * @return maze start state
+     */
     @Override
     public AState getStartState() {
         return m_startState;
     }
 
+    /**
+     * Returns maze goal state
+     * @return maze goal state
+     */
     @Override
     public AState getGoalState() {
         return m_goalState;
     }
 
+    /**
+     * Returns an ArrayList of all successors of a curtain position
+     * @param curr_state - AState
+     * @return successors of curr_state
+     */
     @Override
     public ArrayList<AState> getAllSuccessors(AState curr_state) {
 
@@ -82,10 +101,22 @@ public class SearchableMaze implements ISearchable{
         return successors;
     }
 
+    /**
+     * Returns a string
+     * @param row - row number
+     * @param col - column number
+     * @return String - (row,col)
+     */
     private String getKey(int row, int col){
         return "(" + row + "," + col + ")";
     }
 
+    /**
+     * This function sets coast for all successors of a curtain state
+     * @param successors - ArrayList of successors
+     * @param row - row number of the current State
+     * @param col - col number of the current State
+     */
     private void setCoast(ArrayList<AState> successors, int row , int col){
 
         ArrayList<String> keys = new ArrayList<>();
@@ -98,9 +129,9 @@ public class SearchableMaze implements ISearchable{
         for (AState s: successors) {
             for (String key: keys) {
                 if (s.equals(m_states.get(key)))
-                    s.setM_coast(15);
+                    s.setM_coast(DIAGONAL_COAST);
                 else
-                    s.setM_coast(10);
+                    s.setM_coast(STRAIGHT_COAST);
             }
         }
     }

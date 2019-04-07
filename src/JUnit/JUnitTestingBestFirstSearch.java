@@ -55,6 +55,7 @@ class JUnitTestingBestFirstSearch {
         assertTrue(checkSol(sol2, emptyBigMaze, s_mBigEmpty));
 
         // Simple maze
+        simpleSmallMaze.print();
         sol1 = bfs.solve(s_mSmallSimple);
         sol2 = bfs.solve(s_mBigSimple);
         assertTrue(checkSol(sol1, simpleSmallMaze, s_mSmallSimple));

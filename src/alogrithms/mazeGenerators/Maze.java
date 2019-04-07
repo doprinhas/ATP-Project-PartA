@@ -119,9 +119,9 @@ public class Maze {
                 if (i == this.startPos.getRowIndex() && j == this.startPos.getColumnIndex()) {
                     System.out.print("S");
                 }
-                else if (i == this.endPos.getRowIndex() && j == this.endPos.getColumnIndex()) {
-                    System.out.print("E");
-                } else
+//                else if (i == this.endPos.getRowIndex() && j == this.endPos.getColumnIndex()) {
+//                    System.out.print("E");
+                 else
                     System.out.print(maze[i][j]);
             }
             System.out.println();

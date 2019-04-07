@@ -5,15 +5,20 @@ import java.util.*;
 public class BestFirstSearch extends BreadthFirstSearch {
 
     /**
-     * default constructor
+     * Default constructor
      */
     public BestFirstSearch() {
         super();
     }
 
-    public String getName(){ return "Best First Search"; }
     /**
-     * This function solve a searchable problem with Breadth first search algorithm
+     * Returns the Algorithm name
+     * @return Algorithm name
+     */
+    public String getName(){ return "Best First Search"; }
+
+    /**
+     * This function solve a searchable problem with Best first search algorithm
      * @param prob - object that implements searchable interface
      * @return Solution object
      */
@@ -28,7 +33,7 @@ public class BestFirstSearch extends BreadthFirstSearch {
         PriorityQueue<AState> queue = new PriorityQueue<>(pathSorter);
         queue.add(prob.getStartState());
 
-        AState state = solve(prob, queue);
+        AState state = super.solve(prob, queue);
         return new Solution(super.getSolutionPath(state));
     }
 }

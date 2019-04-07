@@ -2,15 +2,19 @@ package alogrithms.search;
 
 public abstract class AState {
 
-    protected Object m_state;
-    protected AState m_prev;
-    protected double m_coast;
-    protected double m_pathCoast;
+    Object m_state;
+    AState m_prev;
+    double m_coast;
+    double m_pathCoast;
 
+    /**
+     * AState default Constructor
+     */
     protected AState(){}
+
     /**
      * AState Constructor
-     * @param o
+     * @param o - problem state
      */
     public AState (Object o){
 
@@ -24,8 +28,8 @@ public abstract class AState {
     /**
      * AState Constructor - that gets a curtain problem state
      * a previous state and a coast to get to get to that curtain state
-     * @param o - problem state ,
-     * @param prev - previous state ,
+     * @param o - problem state
+     * @param prev - previous state
      * @param coast - coast to the current state
      */
     public AState(Object o, AState prev , double coast){
@@ -56,50 +60,65 @@ public abstract class AState {
      * Returns the previous state
      * @return previous state
      */
-    public AState getPrev() {
+    AState getPrev() {
         return m_prev;
     }
 
     /**
-     * set new previous state
-     * @param prev
+     * Sets new previous state
+     * @param prev - previous state
      */
-    public void setPrev(AState prev) {
+    void setPrev(AState prev) {
         m_prev = prev;
     }
 
+    /**
+     * Getter - Returns the current state
+     * @return The current state
+     */
     public Object getM_state(){ return m_state; }
 
-    public void setM_pathCoast(double coast){
+    /**
+     * Setter - Sets a States coast
+     * @param coast - States coast
+     */
+    void setM_pathCoast(double coast){
         m_pathCoast = coast;
     }
 
-    public double getM_pathCoast() {
+    /**
+     * Getter - Returns the state coast
+     * @return The state coast
+     */
+    double getM_pathCoast() {
         return m_pathCoast;
     }
 
-    public double getM_coast() {
-        return m_coast;
-    }
-
-    public void setM_coast(double m_coast) {
+    /**
+     * @param m_coast - The state coast
+     */
+    void setM_coast(double m_coast) {
         this.m_coast = m_coast;
     }
 
     /**
-     * compare between two states
-     * @param obj
-     * @return
+     * Compare between two states
+     * @param other - State to compare to
+     * @return if this and
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object other) {
 
-        if (obj == null || !(obj instanceof AState))
+        if (other == null || !(other instanceof AState))
             return false;
 
-        return m_state.equals(((AState)obj).m_state);
+        return m_state.equals(((AState)other).m_state);
     }
 
+    /**
+     * Returns the current state toString
+     * @return string
+     */
     @Override
     public String toString() {
         return this.m_state.toString();

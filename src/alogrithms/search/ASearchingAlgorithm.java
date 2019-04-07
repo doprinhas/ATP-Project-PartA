@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
 
-    protected int evaluatedNodes;
-    protected HashMap<String, AState> m_states;
+    int evaluatedNodes;
+    HashMap<String, AState> m_states;
 
     /**
      * ASearchingAlgorithm Constructor
      */
-    protected ASearchingAlgorithm(){
+    ASearchingAlgorithm(){
         m_states = new HashMap<>();
         evaluatedNodes = 0;
     }
@@ -36,7 +36,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
      * @param state - AState
      * @return the path to the state
      */
-    protected ArrayList<AState> getSolutionPath(AState state){
+    ArrayList<AState> getSolutionPath(AState state){
 
         if (state == null)
             return null;
@@ -51,7 +51,10 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
         return result_path;
     }
 
-    protected void resetProb(){
+    /**
+     * Resets the problem variables
+     */
+    void resetProb(){
         m_states = new HashMap<>();
         evaluatedNodes = 0;
     }
