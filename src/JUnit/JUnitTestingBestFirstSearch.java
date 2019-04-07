@@ -46,6 +46,7 @@ class JUnitTestingBestFirstSearch {
 
 
     @Test
+    @SuppressWarnings("Duplicates")
     void solve() {
         // Empty maze
         sol1 = bfs.solve(s_mSmallEmpty);
