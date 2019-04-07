@@ -1,4 +1,4 @@
-package alogrithms.mazeGenerators;
+package algorithms.mazeGenerators;
 
 /**
  * The class generates simple mazes.

@@ -1,4 +1,4 @@
-package alogrithms.mazeGenerators;
+package algorithms.mazeGenerators;
 
 
 import java.util.ArrayList;

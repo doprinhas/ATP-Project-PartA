@@ -1,4 +1,4 @@
-package alogrithms.search;
+package algorithms.search;
 
 import java.util.HashMap;
 import java.util.Stack;

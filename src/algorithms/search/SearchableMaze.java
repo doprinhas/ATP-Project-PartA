@@ -1,7 +1,7 @@
-package alogrithms.search;
+package algorithms.search;
 
-import alogrithms.mazeGenerators.Maze;
-import alogrithms.mazeGenerators.Position;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 
 import java.util.ArrayList;
 import java.util.HashMap;

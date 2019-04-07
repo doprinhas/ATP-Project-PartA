@@ -1,10 +1,10 @@
 package JUnit;
 
-import alogrithms.mazeGenerators.*;
-import alogrithms.search.AState;
-import alogrithms.search.BestFirstSearch;
-import alogrithms.search.SearchableMaze;
-import alogrithms.search.Solution;
+import algorithms.mazeGenerators.*;
+import algorithms.search.AState;
+import algorithms.search.BestFirstSearch;
+import algorithms.search.SearchableMaze;
+import algorithms.search.Solution;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -55,7 +55,6 @@ class JUnitTestingBestFirstSearch {
         assertTrue(checkSol(sol2, emptyBigMaze, s_mBigEmpty));
 
         // Simple maze
-        simpleSmallMaze.print();
         sol1 = bfs.solve(s_mSmallSimple);
         sol2 = bfs.solve(s_mBigSimple);
         assertTrue(checkSol(sol1, simpleSmallMaze, s_mSmallSimple));

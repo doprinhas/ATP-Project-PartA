@@ -1,4 +1,4 @@
-package alogrithms.mazeGenerators;
+package algorithms.mazeGenerators;
 
 public class EmptyMazeGenerator extends AMazeGenerator {
 

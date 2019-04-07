@@ -1,5 +1,5 @@
 package test;
-import alogrithms.mazeGenerators.*;
+import algorithms.mazeGenerators.*;
 
 public class RunMazeGenerator {
     public static void main(String[] args) {

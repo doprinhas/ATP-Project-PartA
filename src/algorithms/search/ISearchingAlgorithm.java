@@ -1,4 +1,4 @@
-package alogrithms.search;
+package algorithms.search;
 
 /**
  * Interface for A searching Algorithm

@@ -1,8 +1,8 @@
 package test;
 
-import alogrithms.mazeGenerators.EmptyMazeGenerator;
-import alogrithms.mazeGenerators.Maze;
-import alogrithms.search.*;
+import algorithms.mazeGenerators.EmptyMazeGenerator;
+import algorithms.mazeGenerators.Maze;
+import algorithms.search.*;
 
 import java.util.ArrayList;
 

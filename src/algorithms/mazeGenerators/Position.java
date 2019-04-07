@@ -1,6 +1,4 @@
-package alogrithms.mazeGenerators;
-
-import javafx.geometry.Pos;
+package algorithms.mazeGenerators;
 
 public class Position {
 

@@ -1,4 +1,4 @@
-package alogrithms.search;
+package algorithms.search;
 
 public abstract class AState {
 
