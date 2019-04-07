@@ -2,20 +2,26 @@ package alogrithms.search;
 
 import alogrithms.mazeGenerators.Position;
 
+/**
+ * Class for a State of a Maze
+ */
 public class MazeState extends AState{
 
-    public MazeState (Object o, AState prev , double coast){
-        super(o , prev , coast);
+    /**
+     * Constructor
+     * @param obj
+     */
+    public MazeState(Object obj){
+        if (!(obj instanceof Position)){}
+        this.m_state = obj;
+        this.m_prev = null;
+        this.m_coast = -1;
     }
 
-    public MazeState(Object position , double coast){
-        super(position, coast);
-    }
-
-    public MazeState(Object position){
-        super(position);
-    }
-
+    /**
+     * Copy Constructor
+     * @param state
+     */
     public MazeState(AState state){
         this.m_state = state.m_state;
         this.m_prev = state.m_prev;
