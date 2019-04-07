@@ -2,7 +2,6 @@ package alogrithms.mazeGenerators;
 
 import javafx.geometry.Pos;
 
-import java.util.ArrayList;
 
 public class Maze {
 

@@ -64,7 +64,6 @@ public abstract class AState {
         m_prev = prev;
     }
 
-
     public Object getM_state(){ return m_state; }
 
     public void setM_pathCoast(double coast){
