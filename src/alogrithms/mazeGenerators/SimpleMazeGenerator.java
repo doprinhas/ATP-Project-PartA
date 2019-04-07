@@ -9,9 +9,6 @@ public class SimpleMazeGenerator extends AMazeGenerator {
 
     public Maze generate(int rows, int columns)
     {
-        if(rows < 2 || columns < 2){
-            return null;
-        }
         Maze simpleMaze = new Maze(rows, columns);
         for(int i=0; i<rows; i++)
             for(int j=0; j<columns; j++) {
