@@ -1,9 +1,7 @@
 package test;
 
 import alogrithms.mazeGenerators.EmptyMazeGenerator;
-import alogrithms.mazeGenerators.IMazeGenerator;
 import alogrithms.mazeGenerators.Maze;
-import alogrithms.mazeGenerators.MyMazeGenerator;
 import alogrithms.search.*;
 
 import java.util.ArrayList;
