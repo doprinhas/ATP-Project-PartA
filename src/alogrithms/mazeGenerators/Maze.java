@@ -13,14 +13,21 @@ public class Maze {
 
     public Maze(int rows, int columns)
     {
-        mRows = rows;
-        mColumns = columns;
-        maze = new int[rows][columns];
-        for(int i=0; i<rows; i++)
-            for(int j=0; j<columns; j++)
+        try {
+            maze = new int[rows][columns];
+            mRows = rows;
+            mColumns = columns;
+        }
+        catch(Exception e){
+            mRows = 30;
+            mColumns = 30;
+            maze = new int[mRows][mColumns];
+        }
+        for(int i=0; i<mRows; i++)
+            for(int j=0; j<mColumns; j++)
                 maze[i][j] = 0;
 
-        startPos = new Position(0,1);
+        startPos = new Position(0,0);
         endPos = new Position(rows-1, columns-2);
     }
 
