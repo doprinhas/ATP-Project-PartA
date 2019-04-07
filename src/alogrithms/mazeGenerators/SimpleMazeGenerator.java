@@ -10,6 +10,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
     public Maze generate(int rows, int columns)
     {
         Maze simpleMaze = new Maze(rows, columns);
+        simpleMaze.setStartPos(0,0);
         for(int i=0; i<rows; i++)
             for(int j=0; j<columns; j++) {
                 simpleMaze.maze[i][j] = 1;
@@ -40,6 +41,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
                     maze.setValue(position, 0);
                 }
         }
+        maze.setEndPos(position);
     }
 
     /**
