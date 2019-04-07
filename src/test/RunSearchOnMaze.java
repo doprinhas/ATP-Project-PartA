@@ -17,17 +17,17 @@ public class RunSearchOnMaze {
         System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);
 
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-//        maze.print();
+        maze.print();
 
-//        lStartTime = System.nanoTime();
-//        solveProblem(searchableMaze, new BreadthFirstSearch());
-//        lEndTime = System.nanoTime();
-//        System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);
-//
-//        lStartTime = System.nanoTime();
-//        solveProblem(searchableMaze, new DepthFirstSearch());
-//        lEndTime = System.nanoTime();
-//        System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);
+        lStartTime = System.nanoTime();
+        solveProblem(searchableMaze, new BreadthFirstSearch());
+        lEndTime = System.nanoTime();
+        System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);
+
+        lStartTime = System.nanoTime();
+        solveProblem(searchableMaze, new DepthFirstSearch());
+        lEndTime = System.nanoTime();
+        System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);
 
         lStartTime = System.nanoTime();
         solveProblem(searchableMaze, new BestFirstSearch());
