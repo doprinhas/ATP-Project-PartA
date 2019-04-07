@@ -144,65 +144,7 @@ public class Maze {
             }
             System.out.println();
         }
-            for (int i = 0; i < maze.length; i++) {
-                for (int j = 0; j < maze[i].length; j++) {
-                    if (i == startPos.getRowIndex() && j == startPos.getColumnIndex()) {//startPosition
-                        System.out.print(" " + "\u001B[44m" + " ");
-                    } else if (i == endPos.getRowIndex() && j == endPos.getColumnIndex()) {//goalPosition
-                        System.out.print(" " + "\u001B[44m" + " ");
-                    } else if (maze[i][j] == 1) System.out.print(" " + "\u001B[45m" + " ");
-                    else System.out.print(" " + "\u001B[107m" + " ");
-                }
-                System.out.println(" " + "\u001B[107m");
-            }
     }
-
-    /**
-     * This function returns all possible neighbors for a curtain position
-     * in clock wise order
-     * @param curr_p
-     * @return neighbors of a curtain position
-     */
-/*    public ArrayList<Object> getNeighbors(Object curr_p){
-
-        if (curr_p == null || !(curr_p instanceof Position) || getValue((Position)curr_p) == 1)
-            return null;
-
-        ArrayList<Object> neighbors = new ArrayList<>();
-        int curr_row = ((Position)curr_p).getRowIndex();
-        int curr_col = ((Position)curr_p).getColumnIndex();
-        boolean isAdded = false;
-
-        if (addPositionToNeighbors(neighbors, curr_row -1, curr_col))
-            isAdded = addPositionToNeighbors(neighbors, curr_row -1, curr_col +1);
-
-        //adds the up right neighbor if it is possible to get to him from the right neighbor
-        if (!isAdded && isAPass(curr_row , curr_col +1 ))
-            addPositionToNeighbors(neighbors, curr_row - 1, curr_col + 1);
-
-        if (addPositionToNeighbors(neighbors, curr_row, curr_col + 1))
-            isAdded = addPositionToNeighbors(neighbors, curr_row + 1, curr_col + 1);
-
-        //adds the bottom right neighbor if it is possible to get to him from the bottom neighbor
-        if (!isAdded && isAPass(curr_row + 1, curr_col))
-            addPositionToNeighbors(neighbors, curr_row + 1, curr_col + 1);
-
-        if (addPositionToNeighbors(neighbors, curr_row + 1, curr_col))
-            isAdded = addPositionToNeighbors(neighbors, curr_row + 1, curr_col -1);
-
-        //adds the bottom left neighbor if it is possible to get to him from the left neighbor
-        if (!isAdded && isAPass(curr_row, curr_col - 1))
-            addPositionToNeighbors(neighbors, curr_row + 1, curr_col - 1);
-
-        isAdded = addPositionToNeighbors(neighbors, curr_row, curr_col - 1) ||
-                isAPass(curr_row -1 , curr_col);
-
-        //adds the bottom left neighbor if it is possible to get to him from the left neighbor
-        if (isAdded)
-            addPositionToNeighbors(neighbors, curr_row - 1, curr_col - 1);
-
-        return neighbors;
-    }*/
 
     /**
      * This function checks is a curtain position is a pass
