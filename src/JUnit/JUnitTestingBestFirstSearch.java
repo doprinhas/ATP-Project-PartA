@@ -1,6 +1,11 @@
-package alogrithms.search;
+package JUnit;
 
 import alogrithms.mazeGenerators.*;
+import alogrithms.search.AState;
+import alogrithms.search.BestFirstSearch;
+import alogrithms.search.SearchableMaze;
+import alogrithms.search.Solution;
+import javafx.geometry.Pos;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -91,7 +96,8 @@ class JUnitTestingBestFirstSearch {
                 return false;
         }
 
-        if(!solPath.get(solPath.size()-1).equals(maze.getGoalPosition()))
+        Position goalPos = (Position)solPath.get(solPath.size()-1).getM_state();
+        if(!goalPos.equals(maze.getGoalPosition()))
             return false;
 
         return true;
