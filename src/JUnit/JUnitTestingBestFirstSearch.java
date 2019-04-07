@@ -16,7 +16,7 @@ class JUnitTestingBestFirstSearch {
     private AMazeGenerator m_gSimple = new SimpleMazeGenerator();
     private AMazeGenerator m_gMy = new MyMazeGenerator();
     // Empty maze
-    private Maze emptySmallMaze = m_gEmpty.generate(11, 55);
+    private Maze emptySmallMaze = m_gEmpty.generate(0, 0);
     private Maze emptyBigMaze = m_gEmpty.generate(1000, 1000);
     private Maze emptyWrongMaze = m_gEmpty.generate(-10, -10);
     private SearchableMaze s_mSmallEmpty = new SearchableMaze(emptySmallMaze);

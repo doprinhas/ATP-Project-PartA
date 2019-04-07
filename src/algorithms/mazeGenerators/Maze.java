@@ -17,6 +17,8 @@ public class Maze {
     public Maze(int rows, int columns)
     {
         try {
+            if(rows == 0 || columns == 0)
+                throw new Exception("Not a valid maze size");
             maze = new int[rows][columns];
             mRows = rows;
             mColumns = columns;
