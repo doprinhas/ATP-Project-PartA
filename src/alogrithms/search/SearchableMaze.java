@@ -8,13 +8,13 @@ import java.util.HashMap;
 
 public class SearchableMaze implements ISearchable{
 
-    private Maze m_maze;
     private MazeState m_startState;
     private MazeState m_goalState;
     private HashMap<String, MazeState> m_states;
 
-    final double DIAGONAL_COAST = 15;
-    final double STRAIGHT_COAST = 10;
+    @SuppressWarnings("FieldCanBeLocal")
+    private double DIAGONAL_COAST = 15;
+    private double STRAIGHT_COAST = 10;
 
     /**
      * SearchableMaze Constructor
@@ -23,7 +23,6 @@ public class SearchableMaze implements ISearchable{
     public SearchableMaze(Maze maze){
 
         if (maze != null){
-            m_maze = maze;
             m_startState = new MazeState(maze.getStartPosition());
             m_goalState  = new MazeState(maze.getGoalPosition());
             m_states = new HashMap<>();
