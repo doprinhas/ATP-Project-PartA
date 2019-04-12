@@ -26,8 +26,8 @@ public abstract class AState {
     }
 
     /**
-     * AState Constructor - that gets a curtain problem state
-     * a previous state and a coast to get to get to that curtain state
+     * AState Constructor - that gets a certain problem state
+     * a previous state and a coast to get to get to that certain state
      * @param o - problem state
      * @param prev - previous state
      * @param coast - coast to the current state
@@ -42,8 +42,8 @@ public abstract class AState {
     }
 
     /**
-     * AState Constructor - that gets a curtain problem state
-     * a previous state and a coast to get to get to that curtain state
+     * AState Constructor - that gets a certain problem state
+     * a previous state and a coast to get to get to that certain state
      * @param o - problem state
      * @param coast - coast to the current state
      */

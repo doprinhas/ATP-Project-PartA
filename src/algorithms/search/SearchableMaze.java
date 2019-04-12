@@ -60,7 +60,7 @@ public class SearchableMaze implements ISearchable{
     }
 
     /**
-     * Returns an ArrayList of all successors of a curtain position
+     * Returns an ArrayList of all successors of a certain position
      * @param curr_state - AState
      * @return successors of curr_state
      */
@@ -111,7 +111,7 @@ public class SearchableMaze implements ISearchable{
     }
 
     /**
-     * This function sets coast for all successors of a curtain state
+     * This function sets coast for all successors of a certain state
      * @param successors - ArrayList of successors
      * @param row - row number of the current State
      * @param col - col number of the current State
