@@ -2,6 +2,8 @@ package test;
 
 import algorithms.mazeGenerators.EmptyMazeGenerator;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.SimpleMazeGenerator;
 import algorithms.search.*;
 
 import java.util.ArrayList;
@@ -9,8 +11,8 @@ import java.util.ArrayList;
 public class RunSearchOnMaze {
     public static void main(String[] args){
         long lStartTime = System.nanoTime();
-        EmptyMazeGenerator mg = new EmptyMazeGenerator();
-        Maze maze = mg.generate(1000,1000);
+        SimpleMazeGenerator mg = new SimpleMazeGenerator();
+        Maze maze = mg.generate(111,111);
         long lEndTime = System.nanoTime();
         System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);
 
