@@ -1,6 +1,13 @@
 package algorithms.mazeGenerators;
 
 
+import sun.security.ssl.Debug;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 public class Maze {
 
     protected int[][] maze;
@@ -11,19 +18,20 @@ public class Maze {
 
     @SuppressWarnings("unused")
     private final int WALL_VALUE = 1;
-    @SuppressWarnings("FieldCanBeLocal")
+
     private final int PASS_VALUE = 0;
 
     public Maze(int rows, int columns)
     {
         try {
-            if(rows == 0 || columns == 0)
-                throw new Exception("Not a valid maze size");
+            if(rows <= 0 || columns <= 0 || rows > 25000 || columns > 25000)
+                throw new IOException("Not a valid maze size");
             maze = new int[rows][columns];
             mRows = rows;
             mColumns = columns;
         }
-        catch(Exception e){
+        catch(IOException e){
+            System.out.println(e.getMessage());
             mRows = 30;
             mColumns = 30;
             maze = new int[mRows][mColumns];
@@ -35,6 +43,8 @@ public class Maze {
         startPos = new Position(0,0);
         endPos = new Position(rows-1, columns-2);
     }
+
+    public Maze(byte [] b){}
 
     /**
      * Returns the number of rows in the maze
@@ -139,7 +149,7 @@ public class Maze {
     public boolean isAPass(int row , int col){
 
         if(row >= 0 && row < mRows && col >= 0 &&  col < mColumns)
-            return maze[row][col] == 0;
+            return maze[row][col] == PASS_VALUE;
 
         return false;
     }
@@ -149,6 +159,85 @@ public class Maze {
 
         return new Position(row, col);
 
+    }
+
+    private final int[] byteArray_rowsNumPosition = { 0 , 1 };
+    private final int[] byteArray_colsNumPosition = { 2 , 3 };
+    private final int[] byteArray_startPosition = { 4 , 5 , 6 , 7 };
+    private final int[] byteArray_EndPosition = { 8 , 9 , 10 , 11 };
+    private final int NUM_OF_DATA_CELLS = 12;
+
+    public byte[] toByteArray() {
+
+        int[] intArray = toIntArray();
+        int arrayLength = getByteArrayLength(intArray);
+        byte[] mazeData = new byte[arrayLength];
+        int index = NUM_OF_DATA_CELLS;
+
+        for (int i : intArray)
+            while (i > 0){
+                if (i < 256)
+                    mazeData[index] = (byte) i;
+                else
+                    mazeData[index] = (byte) 255;
+                i -= 255;
+                index++;
+            }
+
+        return mazeData;
+    }
+
+    private int getByteArrayLength(int[] intA){
+        return intA.length + getNumOver255(intA)*2 + NUM_OF_DATA_CELLS;
+    }
+
+    private int[] toIntArray(){
+
+        int prev = 0, counter = 0, index = 0;
+        int[] num = new int[countNumOfChanges()+1];
+
+        for (int i = 0 ; i < mRows ; i++)
+            for (int j = 0 ; j < mColumns ; j++) {
+                if (maze[i][j] == prev)
+                    counter++;
+                else {
+                    num[index] = counter;
+                    index++;
+                    counter = 1;
+                    prev = maze[i][j];
+                }
+            }
+
+        num[index] = counter;
+        return num;
+    }
+
+    private int getNumOver255(int[] array){
+        int counter = 0;
+        int ones = 0;
+        for (int i: array){
+            if (i == 1)
+                ones++;
+            if (i > 255)
+                counter += (i/255 +1);
+        }
+        System.out.println(ones);
+        System.out.println(array.length);
+        return counter;
+    }
+
+    private int countNumOfChanges(){
+        int prev = 0;
+        int counter = 0;
+
+        for (int i = 0 ; i < mRows ; i++)
+            for (int j = 0 ; j < mColumns ; j++)
+                if (maze[i][j] != prev) {
+                    counter++;
+                    prev = maze[i][j];
+                }
+
+        return counter;
     }
 
 }

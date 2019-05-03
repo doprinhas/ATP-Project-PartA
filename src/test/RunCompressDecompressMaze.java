@@ -2,9 +2,7 @@ package test;
 
 import IO.MyCompressorOutputStream;
 import IO.MyDecompressorInputStream;
-import algorithms.mazeGenerators.AMazeGenerator;
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.*;
 
 import java.io.*;
 import java.util.Arrays;
@@ -14,9 +12,23 @@ import java.util.Arrays;
  */
 public class RunCompressDecompressMaze {
     public static void main(String[] args) {
+
+/*        long lStartTime = System.nanoTime();
+        AMazeGenerator mazeGenerator = new SimpleMazeGenerator();
+        Maze maze = mazeGenerator.generate(1000, 1000);
+//        maze.print();
+        long lEndTime = System.nanoTime();
+        System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);
+
+        lStartTime = System.nanoTime();
+        maze.toByteArray();
+        lEndTime = System.nanoTime();
+        System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);*/
+
+
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
-        Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
+        Maze maze = mazeGenerator.generate(1000, 1000); //Generate new maze
 
         try {
             // save maze to a file
@@ -28,7 +40,7 @@ public class RunCompressDecompressMaze {
             e.printStackTrace();
         }
 
-        byte savedMazeBytes[] = new byte[0];
+        /*byte savedMazeBytes[] = new byte[0];
         try {
             //read maze from file
             InputStream in = new MyDecompressorInputStream(new FileInputStream(mazeFileName));
@@ -41,6 +53,6 @@ public class RunCompressDecompressMaze {
 
         Maze loadedMaze = new Maze(savedMazeBytes);
         boolean areMazesEquals = Arrays.equals(loadedMaze.toByteArray(),maze.toByteArray());
-        System.out.println(String.format("Mazes equal: %s",areMazesEquals)); //maze should be equal to loadedMaze
+        System.out.println(String.format("Mazes equal: %s",areMazesEquals)); //maze should be equal to loadedMaze*/
     }
 }

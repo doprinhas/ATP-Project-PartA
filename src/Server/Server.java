@@ -25,23 +25,23 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
 
-            while (!stop) {
+
+            try {
+                Socket clientSocket = serverSocket.accept(); // Accepts client
                 try {
-                    Socket clientSocket = serverSocket.accept(); // Accepts client
-                    try {
-                        serverStrategy.serverStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
-                        clientSocket.getInputStream().close();
-                        clientSocket.getOutputStream().close();
-                        clientSocket.close();
-                    } catch (IOException e) {
-                        //LOG.error("IOException - Error handing client!", e);
-                        System.out.println(e.getStackTrace());
-                    }
-                } catch (SocketTimeoutException e) {
-                    //LOG.debug("Socket Timeout - No clients are waiting!");
+                    serverStrategy.serverStrategy(clientSocket.getInputStream() , clientSocket.getOutputStream());
+                    clientSocket.getInputStream().close();
+                    clientSocket.getOutputStream().close();
+                    clientSocket.close();
+                } catch (IOException e) {
+                    //LOG.error("IOException - Error handing client!", e);
                     System.out.println(e.getStackTrace());
                 }
+            } catch (SocketTimeoutException e) {
+                //LOG.debug("Socket Timeout - No clients are waiting!");
+                System.out.println(e.getStackTrace());
             }
+
             serverSocket.close();
         } catch (IOException e) {
             //LOG.error("IOException:", e);
