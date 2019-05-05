@@ -5,7 +5,9 @@ import java.io.OutputStream;
 
 public class MyCompressorOutputStream extends OutputStream {
 
-    OutputStream out;
+    private OutputStream out;
+    private byte[] data;
+    private int BYTE_SIZE = 8;
 
     public MyCompressorOutputStream(OutputStream out){
 
@@ -23,6 +25,8 @@ public class MyCompressorOutputStream extends OutputStream {
 
     @Override
     public void write(byte[] ba) throws IOException {
+
+
         out.flush();
         out.write(ba);
     }

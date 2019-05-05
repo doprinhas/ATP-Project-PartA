@@ -165,79 +165,44 @@ public class Maze {
     private final int[] byteArray_colsNumPosition = { 2 , 3 };
     private final int[] byteArray_startPosition = { 4 , 5 , 6 , 7 };
     private final int[] byteArray_EndPosition = { 8 , 9 , 10 , 11 };
+    private final int DIVISION = 100;
     private final int NUM_OF_DATA_CELLS = 12;
 
     public byte[] toByteArray() {
 
-        int[] intArray = toIntArray();
-        int arrayLength = getByteArrayLength(intArray);
-        byte[] mazeData = new byte[arrayLength];
+        byte[] mazeData = new byte[ NUM_OF_DATA_CELLS + (mRows * mColumns) ];
+        saveMazeData(mazeData);
         int index = NUM_OF_DATA_CELLS;
 
-        for (int i : intArray)
-            while (i > 0){
-                if (i < 256)
-                    mazeData[index] = (byte) i;
-                else
-                    mazeData[index] = (byte) 255;
-                i -= 255;
+        for(int i = 0 ; i < mRows ; i++)
+            for (int j = 0 ; j < mColumns ; j++) {
+                mazeData[index] = (byte) maze[i][j];
                 index++;
             }
 
         return mazeData;
     }
 
-    private int getByteArrayLength(int[] intA){
-        return intA.length + getNumOver255(intA)*2 + NUM_OF_DATA_CELLS;
-    }
+    private void saveMazeData( byte[] ba ){
 
-    private int[] toIntArray(){
+        ba[byteArray_rowsNumPosition[0]] = (byte)(mRows/DIVISION);
+        ba[byteArray_rowsNumPosition[1]] = (byte)(mRows%DIVISION);
 
-        int prev = 0, counter = 0, index = 0;
-        int[] num = new int[countNumOfChanges()+1];
+        ba[byteArray_colsNumPosition[0]] = (byte)(mColumns/DIVISION);
+        ba[byteArray_colsNumPosition[1]] = (byte)(mColumns%DIVISION);
 
-        for (int i = 0 ; i < mRows ; i++)
-            for (int j = 0 ; j < mColumns ; j++) {
-                if (maze[i][j] == prev)
-                    counter++;
-                else {
-                    num[index] = counter;
-                    index++;
-                    counter = 1;
-                    prev = maze[i][j];
-                }
-            }
+        ba[byteArray_startPosition[0]] = (byte)(getStartPosition().getRowIndex()/DIVISION);
+        ba[byteArray_startPosition[1]] = (byte)(getStartPosition().getRowIndex()%DIVISION);
 
-        num[index] = counter;
-        return num;
-    }
+        ba[byteArray_startPosition[2]] = (byte)(getStartPosition().getColumnIndex()/DIVISION);
+        ba[byteArray_startPosition[3]] = (byte)(getStartPosition().getColumnIndex()%DIVISION);
 
-    private int getNumOver255(int[] array){
-        int counter = 0;
-        int ones = 0;
-        for (int i: array){
-            if (i == 1)
-                ones++;
-            if (i > 255)
-                counter += (i/255 +1);
-        }
-        System.out.println(ones);
-        System.out.println(array.length);
-        return counter;
-    }
+        ba[byteArray_EndPosition[0]] = (byte)(getGoalPosition().getRowIndex()/DIVISION);
+        ba[byteArray_EndPosition[1]] = (byte)(getGoalPosition().getRowIndex()%DIVISION);
 
-    private int countNumOfChanges(){
-        int prev = 0;
-        int counter = 0;
+        ba[byteArray_EndPosition[2]] = (byte)(getGoalPosition().getColumnIndex()/DIVISION);
+        ba[byteArray_EndPosition[3]] = (byte)(getGoalPosition().getColumnIndex()%DIVISION);
 
-        for (int i = 0 ; i < mRows ; i++)
-            for (int j = 0 ; j < mColumns ; j++)
-                if (maze[i][j] != prev) {
-                    counter++;
-                    prev = maze[i][j];
-                }
-
-        return counter;
     }
 
 }
