@@ -170,15 +170,10 @@ public class Maze {
 
     public byte[] toByteArray() {
 
-        byte[] mazeData = new byte[ NUM_OF_DATA_CELLS + (mRows * mColumns) ];
-        saveMazeData(mazeData);
-        int index = NUM_OF_DATA_CELLS;
+        byte[] mazeData = new byte[ NUM_OF_DATA_CELLS + (mRows * mColumns)/8 ];
 
-        for(int i = 0 ; i < mRows ; i++)
-            for (int j = 0 ; j < mColumns ; j++) {
-                mazeData[index] = (byte) maze[i][j];
-                index++;
-            }
+        saveMazeData( mazeData );
+        mazeToBytes( mazeData );
 
         return mazeData;
     }
@@ -203,6 +198,29 @@ public class Maze {
         ba[byteArray_EndPosition[2]] = (byte)(getGoalPosition().getColumnIndex()/DIVISION);
         ba[byteArray_EndPosition[3]] = (byte)(getGoalPosition().getColumnIndex()%DIVISION);
 
+    }
+    private final byte[]  BIT_VALUE = { 1 , 2 , 4 , 8 , 16 , 32 , 64 , (byte)128 };
+
+    private void mazeToBytes( byte[] byte_array ){
+
+        int index = NUM_OF_DATA_CELLS;
+        int counter = 7;
+        int value = 0;
+
+        for(int i = 0 ; i < mRows ; i++)
+            for (int j = 0 ; j < mColumns ; j++) {
+
+                if( maze[i][j] == 1 )
+                    value += BIT_VALUE[counter];
+
+                counter--;
+                if ( counter < 0 ){
+                    byte_array[index] = (byte)value;
+                    index++;
+                    value = 0;
+                    counter = 7;
+                }
+            }
     }
 
 }

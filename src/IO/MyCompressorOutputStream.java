@@ -5,30 +5,24 @@ import java.io.OutputStream;
 
 public class MyCompressorOutputStream extends OutputStream {
 
-    private OutputStream out;
-    private byte[] data;
-    private int BYTE_SIZE = 8;
+    OutputStream out;
 
     public MyCompressorOutputStream(OutputStream out){
 
-        if (out != null)
+        if (out != null){
             this.out = out;
-
+        }
     }
 
 
     @Override
     public void write(int b) throws IOException {
-        out.flush();
         out.write(b);
     }
 
     @Override
-    public void write(byte[] ba) throws IOException {
-
-
-        out.flush();
-        out.write(ba);
+    public void write(byte[] b) throws IOException {
+        out.write(b);
     }
 
 }
