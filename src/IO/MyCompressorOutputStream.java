@@ -49,12 +49,10 @@ public class MyCompressorOutputStream extends OutputStream {
         String current = "" + b[0], next;
         int i=0, counter = 256;
 
-        while(i<b.length)
+        while(i<b.length-1)
         {
-            if(i == b.length -1)
-                next = "";
-            else
-                next = "" + b[i+1];
+
+            next = "" + b[i+1];
             String checkExists = current + "," + next;
             if(compressDict.containsKey(checkExists))
                 current = checkExists;
