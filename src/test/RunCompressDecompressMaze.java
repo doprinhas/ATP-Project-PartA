@@ -25,11 +25,10 @@ public class RunCompressDecompressMaze {
         lEndTime = System.nanoTime();
         System.out.println("Elapsed time in seconds: " + (double)(lEndTime-lStartTime) / 1000000000);*/
 
-
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new SimpleMazeGenerator();
-        Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
-        maze.print();
+        Maze maze = mazeGenerator.generate(1000, 1000); //Generate new maze
+//        maze.print();
         try {
             // save maze to a file
             OutputStream out = new MyCompressorOutputStream(new FileOutputStream(mazeFileName));

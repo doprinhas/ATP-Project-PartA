@@ -223,4 +223,19 @@ public class Maze {
             }
     }
 
+    public byte[] toByteArrayBySuggestion() {
+
+        byte[] mazeData = new byte[ NUM_OF_DATA_CELLS + (mRows * mColumns) ];
+        int index = NUM_OF_DATA_CELLS;
+
+        saveMazeData( mazeData );
+        for (int i = 0 ; i < mRows ; i++)
+            for (int j = 0 ; j < mColumns ; j++){
+                mazeData[index] = (byte)maze[i][j];
+                index++;
+            }
+
+        return mazeData;
+    }
+
 }
