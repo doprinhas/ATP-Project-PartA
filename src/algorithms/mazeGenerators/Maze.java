@@ -273,13 +273,22 @@ public class Maze {
 
     @Override
     public boolean equals(Object obj) {
+
+        if(!obj.getClass().equals(this.getClass()))
+            return false;
+
+        if (((Maze)obj).mRows != this.mRows || ((Maze)obj).mColumns != this.mColumns)
+            return false;
+
         boolean isEqual = true;
+
         for(int i = 0 ; i < mRows ; i++)
             for(int j = 0 ; j < mColumns ; j++)
                 if (maze[i][j] != ((Maze)obj).maze[i][j]) {
                     System.out.println(i + " , " + j);
                     isEqual = false;
                 }
+
         return isEqual;
     }
 
