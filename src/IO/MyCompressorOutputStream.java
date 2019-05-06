@@ -41,7 +41,7 @@ public class MyCompressorOutputStream extends OutputStream {
     public void write(byte[] b) throws IOException {
         HashMap<String, Integer> compressDict = new HashMap<>();
 
-        for(int i=0; i<256; i++)
+        for(int i=-128; i<128; i++)
         {
             compressDict.put(new Integer(i).toString(), new Integer(i));
         }
@@ -55,18 +55,19 @@ public class MyCompressorOutputStream extends OutputStream {
                 next = "";
             else
                 next = "" + b[i+1];
-            String checkExists = current + " " + next;
+            String checkExists = current + "," + next;
             if(compressDict.containsKey(checkExists))
                 current = checkExists;
             else
             {
                 write(compressDict.get(current));
-                compressDict.put(checkExists, new Integer(counter));
+                compressDict.put(checkExists, counter);
                 counter++;
-                current = checkExists;
+                current = next;
             }
+            i++;
         }
-        write(compressDict.get(current).byteValue());
+        write(compressDict.get(current));
     }
 
 }
