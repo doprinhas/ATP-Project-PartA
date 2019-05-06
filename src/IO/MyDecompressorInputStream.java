@@ -5,8 +5,7 @@ import java.io.InputStream;
 import java.util.Dictionary;
 
 public class MyDecompressorInputStream extends InputStream {
-
-    private Dictionary<Byte, String> decompressDict;
+    
     private InputStream in;
 
     /**

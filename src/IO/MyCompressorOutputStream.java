@@ -22,12 +22,13 @@ public class MyCompressorOutputStream extends OutputStream {
     public void write(int b) throws IOException {
         try {
             if (b < 256) {
+                out.write(0);
                 out.write(b);
                 return;
             }
 
-            out.write(-1);
-            out.write(b - 256);
+            out.write(b/256);
+            out.write(b%256);
         }
         catch(IOException e)
         {
