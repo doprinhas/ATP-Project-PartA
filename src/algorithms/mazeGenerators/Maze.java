@@ -44,7 +44,13 @@ public class Maze {
         endPos = new Position(rows-1, columns-2);
     }
 
-    public Maze(byte [] b){}
+    public Maze( byte [] ba ){
+
+        loadMazeData( ba );
+        maze = new int[mRows][mColumns];
+        bytesToMaze( ba );
+
+    }
 
     /**
      * Returns the number of rows in the maze
@@ -165,12 +171,12 @@ public class Maze {
     private final int[] byteArray_colsNumPosition = { 2 , 3 };
     private final int[] byteArray_startPosition = { 4 , 5 , 6 , 7 };
     private final int[] byteArray_EndPosition = { 8 , 9 , 10 , 11 };
-    private final int DIVISION = 100;
+    private final int SHIFT = 256;
     private final int NUM_OF_DATA_CELLS = 12;
 
     public byte[] toByteArray() {
 
-        byte[] mazeData = new byte[ NUM_OF_DATA_CELLS + (mRows * mColumns)/8 ];
+        byte[] mazeData = new byte[ NUM_OF_DATA_CELLS + 1 + (mRows * mColumns)/8 ];
 
         saveMazeData( mazeData );
         mazeToBytes( mazeData );
@@ -180,26 +186,44 @@ public class Maze {
 
     private void saveMazeData( byte[] ba ){
 
-        ba[byteArray_rowsNumPosition[0]] = (byte)(mRows/DIVISION);
-        ba[byteArray_rowsNumPosition[1]] = (byte)(mRows%DIVISION);
+        ba[byteArray_rowsNumPosition[0]] = (byte)(mRows/SHIFT);
+        ba[byteArray_rowsNumPosition[1]] = (byte)(mRows%SHIFT);
 
-        ba[byteArray_colsNumPosition[0]] = (byte)(mColumns/DIVISION);
-        ba[byteArray_colsNumPosition[1]] = (byte)(mColumns%DIVISION);
+        ba[byteArray_colsNumPosition[0]] = (byte)(mColumns/SHIFT);
+        ba[byteArray_colsNumPosition[1]] = (byte)(mColumns%SHIFT);
 
-        ba[byteArray_startPosition[0]] = (byte)(getStartPosition().getRowIndex()/DIVISION);
-        ba[byteArray_startPosition[1]] = (byte)(getStartPosition().getRowIndex()%DIVISION);
+        ba[byteArray_startPosition[0]] = (byte)(getStartPosition().getRowIndex()/SHIFT);
+        ba[byteArray_startPosition[1]] = (byte)(getStartPosition().getRowIndex()%SHIFT);
 
-        ba[byteArray_startPosition[2]] = (byte)(getStartPosition().getColumnIndex()/DIVISION);
-        ba[byteArray_startPosition[3]] = (byte)(getStartPosition().getColumnIndex()%DIVISION);
+        ba[byteArray_startPosition[2]] = (byte)(getStartPosition().getColumnIndex()/SHIFT);
+        ba[byteArray_startPosition[3]] = (byte)(getStartPosition().getColumnIndex()%SHIFT);
 
-        ba[byteArray_EndPosition[0]] = (byte)(getGoalPosition().getRowIndex()/DIVISION);
-        ba[byteArray_EndPosition[1]] = (byte)(getGoalPosition().getRowIndex()%DIVISION);
+        ba[byteArray_EndPosition[0]] = (byte)(getGoalPosition().getRowIndex()/SHIFT);
+        ba[byteArray_EndPosition[1]] = (byte)(getGoalPosition().getRowIndex()%SHIFT);
 
-        ba[byteArray_EndPosition[2]] = (byte)(getGoalPosition().getColumnIndex()/DIVISION);
-        ba[byteArray_EndPosition[3]] = (byte)(getGoalPosition().getColumnIndex()%DIVISION);
+        ba[byteArray_EndPosition[2]] = (byte)(getGoalPosition().getColumnIndex()/SHIFT);
+        ba[byteArray_EndPosition[3]] = (byte)(getGoalPosition().getColumnIndex()%SHIFT);
 
     }
-    private final byte[]  BIT_VALUE = { 1 , 2 , 4 , 8 , 16 , 32 , 64 , (byte)128 };
+
+    private void loadMazeData( byte[] ba ){
+
+        mRows = transformToInt(ba , byteArray_rowsNumPosition , 0 , 1);
+        mColumns = transformToInt(ba , byteArray_colsNumPosition , 0 , 1);
+
+        startPos = new Position(transformToInt(ba , byteArray_startPosition , 0 , 1)
+                               , transformToInt(ba , byteArray_startPosition , 2 , 3));
+
+        endPos = new Position(transformToInt(ba , byteArray_EndPosition , 0 , 1)
+                                , transformToInt(ba , byteArray_EndPosition , 2 , 3));
+
+    }
+
+    private int transformToInt(byte[] ba , int[] position , int i , int j){
+        return ((ba[position[i]] & 0xFF) * SHIFT) + (ba[position[j]] & 0xFF);
+    }
+
+    private final int[]  BIT_VALUE = { 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 };
 
     private void mazeToBytes( byte[] byte_array ){
 
@@ -223,19 +247,40 @@ public class Maze {
             }
     }
 
-    public byte[] toByteArrayBySuggestion() {
+    private void bytesToMaze( byte [] byte_array ){
 
-        byte[] mazeData = new byte[ NUM_OF_DATA_CELLS + (mRows * mColumns) ];
         int index = NUM_OF_DATA_CELLS;
+        int counter = 7;
+        int value = byte_array[index];
 
-        saveMazeData( mazeData );
-        for (int i = 0 ; i < mRows ; i++)
-            for (int j = 0 ; j < mColumns ; j++){
-                mazeData[index] = (byte)maze[i][j];
-                index++;
+        for (int  i = 0 ; i < mRows ; i++)
+            for(int j = 0 ; j < mColumns ; j++){
+                if (value - BIT_VALUE[counter] >= 0) {
+                    maze[i][j] = 1;
+                    value -= BIT_VALUE[counter];
+                }
+                else
+                    maze[i][j] = 0;
+                counter--;
+                if (counter < 0){
+                    counter = 7;
+                    index++;
+                    value = byte_array[index] & 0xFF;
+                }
             }
+    }
 
-        return mazeData;
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean isEqual = true;
+        for(int i = 0 ; i < mRows ; i++)
+            for(int j = 0 ; j < mColumns ; j++)
+                if (maze[i][j] != ((Maze)obj).maze[i][j]) {
+                    System.out.println(i + " , " + j);
+                    isEqual = false;
+                }
+        return isEqual;
     }
 
 }
