@@ -1,10 +1,12 @@
 package IO;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.DeflaterOutputStream;
 
 public class MyCompressorOutputStream extends OutputStream {
 
@@ -19,25 +21,25 @@ public class MyCompressorOutputStream extends OutputStream {
 
 
     @Override
-    public void write(int b) throws IOException {
+    public void write(int b) {
         try {
-            if (b < 256) {
+            out.write(b);
+/*            if (b < 256) {
                 out.write(0);
                 out.write(b);
                 return;
             }
 
             out.write(b/256);
-            out.write(b%256);
+            out.write(b%256);*/
         }
-        catch(IOException e)
-        {
-            System.out.println("I/O error! (Maybe output string is closed)");
+        catch(IOException e){
+//            System.out.println("I/O error! (Maybe output string is closed)");
             e.printStackTrace();
         }
     }
 
-    @Override
+/*    @Override
     public void write(byte[] b) throws IOException {
         HashMap<String, Integer> compressDict = new HashMap<>();
 
@@ -66,6 +68,32 @@ public class MyCompressorOutputStream extends OutputStream {
             i++;
         }
         write(compressDict.get(current));
+    }*/
+
+    @Override
+    public void write(byte[] b) {
+        try{
+            out.write(compress(b));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static byte[] compress(byte[] in) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DeflaterOutputStream defl = new DeflaterOutputStream(out);
+            defl.write(in);
+            defl.flush();
+            defl.close();
+
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

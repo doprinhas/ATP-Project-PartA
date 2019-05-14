@@ -3,6 +3,7 @@ package algorithms.mazeGenerators;
 
 import sun.security.ssl.Debug;
 
+import javax.naming.NameNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -290,6 +291,19 @@ public class Maze {
                 }
 
         return isEqual;
+    }
+
+    public byte[] toBAS(){
+        byte[] b = new byte[ NUM_OF_DATA_CELLS + (mRows*mColumns)];
+        int index = NUM_OF_DATA_CELLS;
+
+        for (int i = 0 ; i < mRows ; i++)
+            for (int j = 0 ; j < mColumns ; j++){
+                b[index] = (byte)maze[i][j];
+                index++;
+            }
+        return b;
+
     }
 
 }
