@@ -1,60 +1,99 @@
 package Server;
 
 import IO.MyCompressorOutputStream;
+import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.*;
 
 import java.io.*;
-import java.time.chrono.IsoChronology;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy{
 
-    private HashMap<Maze, Integer> mazePool;
     private int nameCounter;
-    private String mazeTempDirectoryPath;
-    private String solTempDirectoryPath;
+    final private String mazeTempDirectoryPath;
+    final private String solTempDirectoryPath;
+    final private String counterTempFilePath;
 
     public ServerStrategySolveSearchProblem() {
-        this.mazePool = new HashMap<>();
-        nameCounter = 0;
 
         String tempDirectoryPath = System.getProperty("java.io.tmpdir");
-        new File(tempDirectoryPath + "\\Maze").mkdir();
-        new File(tempDirectoryPath + "\\Sol").mkdir();
         mazeTempDirectoryPath = tempDirectoryPath + "\\Maze";
         solTempDirectoryPath = tempDirectoryPath + "\\Sol";
+        counterTempFilePath = tempDirectoryPath + "\\Counter.txt";
+
+        try // Reading the next new maze index
+        {
+            FileInputStream inCounter = new FileInputStream(counterTempFilePath);
+            Scanner sc = new Scanner(inCounter);
+            nameCounter = sc.nextInt();
+        }
+        catch (IOException e) // If Counter file dont exist
+        {
+            try
+            {
+                new File(counterTempFilePath).createNewFile();
+                Writer outCounter = new FileWriter(counterTempFilePath);
+                outCounter.write("" + 0);
+                nameCounter = 0;
+                outCounter.close();
+            }
+            catch(IOException e2)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        File mazeDir = new File(mazeTempDirectoryPath);
+        File solDir = new File(solTempDirectoryPath);
+        if(!mazeDir.exists() || !solDir.exists())
+        {
+            try
+            {
+                if (!mazeDir.mkdir() || !solDir.mkdir())
+                    throw new Exception("Cant create folder");
+            }
+            catch(Exception e)
+            {
+                System.out.println("Cant create folder");
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
     public void serverStrategy(InputStream inFromClient, OutputStream outToClient){
 
-        try {
+       try {
             // Receiving the problem from client
-            ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
+           ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
             Maze mazeFromClient = (Maze) fromClient.readObject();
             ISearchable prob = new SearchableMaze(mazeFromClient);
             fromClient.close();
 
+            byte[] byteClientMaze = mazeFromClient.toByteArray();
             Solution solution;
-
+            int mazeIndex = isMazeExists(byteClientMaze);
             // Sending to client the problem solution
-            if(!mazePool.containsKey(mazeFromClient))
+            if(mazeIndex == -1)
             {
-                saveCompMaze(mazeFromClient);
+                saveCompMaze(byteClientMaze);
                 ASearchingAlgorithm algorithm = new BestFirstSearch();
                 solution = algorithm.solve(prob);
                 saveSol(solution);
 
-                nameCounter++;
+                addOneToCounter();
             }
             else
             {
-                solution = retrieveMazeSol(mazeFromClient);
+                solution = retrieveMazeSol(mazeIndex);
             }
 
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             toClient.writeObject(solution);
+
 
             toClient.flush();
             toClient.close();
@@ -71,7 +110,47 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
         }
     }
 
-    private void saveCompMaze(Maze maze)
+    private void addOneToCounter()
+    {
+        try
+        {
+            nameCounter++;
+            Writer counterWriter = new FileWriter(counterTempFilePath, false);
+            counterWriter.write("" + nameCounter);
+            counterWriter.close();
+        }
+        catch(IOException e)
+        {
+            System.out.println("Invalid path");
+            e.printStackTrace();
+        }
+    }
+
+    private int isMazeExists(byte[] clientMaze)
+    {
+        for(int i=0; i<nameCounter; i++)
+        {
+            try
+            {
+                FileInputStream inStreamMaze = new FileInputStream(mazeTempDirectoryPath + "\\" + i);
+                MyDecompressorInputStream decompressor = new MyDecompressorInputStream(inStreamMaze);
+                byte[] inMaze = new byte[clientMaze.length];
+                int mazeLength = decompressor.read(inMaze);
+                if(clientMaze.length == mazeLength && Arrays.equals(inMaze, clientMaze))
+                {
+                    return i;
+                }
+            }
+            catch(IOException e)
+            {
+                System.out.println("Invalid path");
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+
+    private void saveCompMaze(byte[] maze)
     {
         try {
             File newMaze = new File(mazeTempDirectoryPath + "\\" + nameCounter);
@@ -79,9 +158,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
 
             FileOutputStream out = new FileOutputStream(mazeTempDirectoryPath + "\\" + nameCounter);
             MyCompressorOutputStream compressor = new MyCompressorOutputStream(out);
-            compressor.write(maze.toByteArray());
-
-            mazePool.put(maze, nameCounter);
+            compressor.write(maze);
 
             compressor.close();
         }
@@ -112,11 +189,11 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
         }
     }
 
-    private Solution retrieveMazeSol(Maze maze)
+    private Solution retrieveMazeSol(int solNumber)
     {
         try
         {
-            FileInputStream in = new FileInputStream(solTempDirectoryPath + "\\" + mazePool.get(maze));
+            FileInputStream in = new FileInputStream(solTempDirectoryPath + "\\" + solNumber);
             ObjectInputStream objectIn = new ObjectInputStream(in);
             Solution returnSol = (Solution) objectIn.readObject();
             
