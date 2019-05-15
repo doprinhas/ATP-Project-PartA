@@ -20,6 +20,10 @@ public class MyDecompressorInputStream extends InputStream {
             in = stream;
     }
 
+    /**
+     * This function reads the whole file
+     * @return
+     */
     @Override
     public int read() {
         try {
@@ -31,6 +35,11 @@ public class MyDecompressorInputStream extends InputStream {
         }
     }
 
+    /**
+     * This function reads the file decompress it to the given byte array
+     * @param b
+     * @return
+     */
     @Override
     public int read(byte[] b) {
         try {
@@ -44,6 +53,10 @@ public class MyDecompressorInputStream extends InputStream {
         }
     }
 
+    /**
+     * This function decompress the given byte array
+     * @param in
+     */
     public static void decompress(byte[] in) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();

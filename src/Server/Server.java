@@ -4,36 +4,46 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeoutException;
 
 public class Server {
 
+    //variable definition
     private int port;
     private int listeningInterval;
     private IServerStrategy serverStrategy;
     private volatile boolean stop;
     private ExecutorService executorService;
 
-
+    /**
+     * constructor
+     * @param port
+     * @param listeningInterval
+     * @param serverStrategy
+     */
     public Server(int port, int listeningInterval, IServerStrategy serverStrategy) {
         this.port = port;
         this.listeningInterval = listeningInterval;
         this.serverStrategy = serverStrategy;
-        this.executorService = Executors.newFixedThreadPool(Configurations.getThreadPoolSize());
 
     }
 
+    /**
+     * Starts the new server
+     */
     public void start() {
         new Thread(() -> {
             runServer();
         }).start();
     }
 
+    /**
+     * runs the server
+     */
     private void runServer() {
         try {
+            this.executorService = Executors.newFixedThreadPool(Configurations.getThreadPoolSize());
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningInterval);
 
@@ -41,7 +51,6 @@ public class Server {
                 try {
                     Socket clientSocket = serverSocket.accept(); // blocking call
                     executorService.execute(() -> handleClient(clientSocket));
-//                    new Thread(() -> {handleClient(clientSocket);}).start();
                 } catch (SocketTimeoutException e) {
                     System.out.println("waiting for clients");
                 }
@@ -53,6 +62,10 @@ public class Server {
         }
     }
 
+    /**
+     * This function execute the server strategy for the client
+     * @param clientSocket
+     */
     private void handleClient(Socket clientSocket) {
         try {
             System.out.println(String.format("Handling client with socket: %s", clientSocket.toString()));
@@ -63,6 +76,9 @@ public class Server {
         }
     }
 
+    /**
+     * stop the server
+     */
     public void stop() {
         stop = true;
     }

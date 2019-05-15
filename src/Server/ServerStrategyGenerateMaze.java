@@ -9,10 +9,17 @@ import java.io.*;
 
 public class ServerStrategyGenerateMaze implements IServerStrategy {
 
+    /**
+     * This function gets an int array of size 2
+     * and returns a compressed maze that size
+     * @param inFromClient
+     * @param outToClient
+     */
     @Override
-    public void serverStrategy(InputStream inFromClient, OutputStream outToClient) {
+    public synchronized void serverStrategy(InputStream inFromClient, OutputStream outToClient) {
         try {
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
+
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             ByteArrayOutputStream outByteArray = new ByteArrayOutputStream();
             MyCompressorOutputStream compressor = new MyCompressorOutputStream(outByteArray);

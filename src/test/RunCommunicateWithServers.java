@@ -18,24 +18,23 @@ import java.util.ArrayList;
  */
 public class RunCommunicateWithServers {
     public static void main(String[] args) {
-        Configurations.setDefaultConfigurations();
         //Initializing servers
-    //    Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
-          Server solveSearchProblemServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
+        Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
+        Server solveSearchProblemServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
         //Server stringReverserServer = new Server(5402, 1000, new ServerStrategyStringReverser());
 
         //Starting  servers
         solveSearchProblemServer.start();
-//        mazeGeneratingServer.start();
+        mazeGeneratingServer.start();
         //stringReverserServer.start();
 
         //Communicating with servers
-  //      CommunicateWithServer_MazeGenerating();
+        CommunicateWithServer_MazeGenerating();
         CommunicateWithServer_SolveSearchProblem();
         //CommunicateWithServer_StringReverser();
 
         //Stopping all servers
-//        mazeGeneratingServer.stop();
+        mazeGeneratingServer.stop();
         solveSearchProblemServer.stop();
         //stringReverserServer.stop();
     }
@@ -54,7 +53,7 @@ public class RunCommunicateWithServers {
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                        byte[] decompressedMaze = new byte[100000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
+                        byte[] decompressedMaze = new byte[1000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         Maze maze = new Maze(decompressedMaze);
                         maze.print();

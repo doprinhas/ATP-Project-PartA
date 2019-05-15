@@ -16,6 +16,9 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
     final private String solTempDirectoryPath;
     final private String counterTempFilePath;
 
+    /**
+     * This function builds the folder for the mazes solution
+     */
     public ServerStrategySolveSearchProblem() {
 
         String tempDirectoryPath = System.getProperty("java.io.tmpdir");
@@ -63,8 +66,13 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
 
     }
 
+    /**
+     * This function gets a maze and return the solution for that maze
+     * @param inFromClient
+     * @param outToClient
+     */
     @Override
-    public void serverStrategy(InputStream inFromClient, OutputStream outToClient){
+    public synchronized void serverStrategy(InputStream inFromClient, OutputStream outToClient){
 
        try {
             // Receiving the problem from client
@@ -72,7 +80,6 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             Maze mazeFromClient = (Maze) fromClient.readObject();
             ISearchable prob = new SearchableMaze(mazeFromClient);
-            fromClient.close();
 
             byte[] byteClientMaze = mazeFromClient.toByteArray();
             Solution solution;
@@ -81,7 +88,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
             if(mazeIndex == -1)
             {
                 saveCompMaze(byteClientMaze);
-                ASearchingAlgorithm algorithm = new BestFirstSearch();
+                ASearchingAlgorithm algorithm = Configurations.getSolverAlgorithm();
                 solution = algorithm.solve(prob);
                 saveSol(solution);
 
@@ -94,9 +101,9 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
 
             toClient.writeObject(solution);
 
-
             toClient.flush();
             toClient.close();
+            fromClient.close();
         }
         catch(IOException e)
         {
