@@ -13,17 +13,21 @@ public class ServerStrategyGenerateMaze implements IServerStrategy {
     public void serverStrategy(InputStream inFromClient, OutputStream outToClient) {
         try {
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
+            ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
+            ByteArrayOutputStream outByteArray = new ByteArrayOutputStream();
+            MyCompressorOutputStream compressor = new MyCompressorOutputStream(outByteArray);
 
-            MyCompressorOutputStream compressor = new MyCompressorOutputStream(outToClient);
-            ObjectOutputStream toClient = new ObjectOutputStream(compressor);
+            toClient.flush();
 
             int[] size = (int[])fromClient.readObject();
 
-            AMazeGenerator mazeGenerator = new MyMazeGenerator();
+            AMazeGenerator mazeGenerator = Configurations.getMazeGenerator();
             Maze maze = mazeGenerator.generate(size[0] , size[1]);
 
-            toClient.writeObject(maze.toByteArray());
+            compressor.write(maze.toByteArray());
+            toClient.writeObject(outByteArray.toByteArray());
 
+            toClient.flush();
             toClient.close();
 
         } catch (IOException e) {

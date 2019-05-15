@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Dictionary;
+import java.util.zip.Inflater;
 import java.util.zip.InflaterOutputStream;
 
 public class MyDecompressorInputStream extends InputStream {
@@ -46,13 +47,13 @@ public class MyDecompressorInputStream extends InputStream {
     public static void decompress(byte[] in) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InflaterOutputStream infl = new InflaterOutputStream(out);
+            InflaterOutputStream infl = new InflaterOutputStream(out /*, new Inflater(true)*/);
             infl.write(in);
             infl.flush();
             infl.close();
 
             byte[] decompress = out.toByteArray();
-            for (int i = 0 ; i < in.length ; i++)
+            for (int i = 0 ; i < decompress.length ; i++)
                 in[i] = decompress[i];
 
         } catch (Exception e) {

@@ -27,4 +27,8 @@ public class Client {
             e.printStackTrace();
         }
     }
+
+    public void communicateWithServer(){
+        start();
+    }
 }
