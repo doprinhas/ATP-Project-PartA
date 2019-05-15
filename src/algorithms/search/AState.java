@@ -1,6 +1,8 @@
 package algorithms.search;
 
-public abstract class AState {
+import java.io.Serializable;
+
+public abstract class AState implements Serializable {
 
     Object m_state;
     AState m_prev;

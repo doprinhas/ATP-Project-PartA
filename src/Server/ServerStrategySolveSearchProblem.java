@@ -68,7 +68,8 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
 
        try {
             // Receiving the problem from client
-           ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
+            ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
+            ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             Maze mazeFromClient = (Maze) fromClient.readObject();
             ISearchable prob = new SearchableMaze(mazeFromClient);
             fromClient.close();
@@ -91,7 +92,6 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
                 solution = retrieveMazeSol(mazeIndex);
             }
 
-            ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             toClient.writeObject(solution);
 
 

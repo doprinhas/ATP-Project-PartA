@@ -5,11 +5,12 @@ import sun.security.ssl.Debug;
 
 import javax.naming.NameNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class Maze {
+public class Maze implements java.io.Serializable {
 
     protected int[][] maze;
     private int mRows;
