@@ -74,4 +74,12 @@ public class Position implements Serializable {
     public String toString() {
         return "{" + row + "," + column + "}";
     }
+
+    public void changeRowBy( int num ){
+        row += num;
+    }
+
+    public void changeColumnBy( int num ){
+        column += num;
+    }
 }

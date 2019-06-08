@@ -307,4 +307,13 @@ public class Maze implements java.io.Serializable {
 
     }
 
+    public int[][] toIntArray(){
+
+        int [][] copy = new int[mRows][mColumns];
+        for ( int i = 0 ; i < mRows ; i++ )
+            for ( int j = 0 ; j < mColumns ; j++ )
+                copy[i][j] = maze[i][j];
+        return copy;
+    }
+
 }
