@@ -76,8 +76,9 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
 
        try {
             // Receiving the problem from client
+            MyCompressorOutputStream compressor = new MyCompressorOutputStream(outToClient);
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
-            ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
+            ObjectOutputStream toClient = new ObjectOutputStream(compressor);
             Maze mazeFromClient = (Maze) fromClient.readObject();
             ISearchable prob = new SearchableMaze(mazeFromClient);
 

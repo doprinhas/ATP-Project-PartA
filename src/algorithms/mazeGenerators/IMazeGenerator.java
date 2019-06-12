@@ -10,6 +10,8 @@ public interface IMazeGenerator {
      */
     Maze generate(int rows, int columns);
 
+    Maze generate(int floors, int rows, int columns);
+
     /**
      * Measuring the maze generate function time
      * @param rows Represents the number of rows in the maze. rows has to be positive
@@ -17,5 +19,7 @@ public interface IMazeGenerator {
      * @return Maze generating time in millis
      */
     long measureAlgorithmTimeMillis(int rows, int columns);
+
+    long measureAlgorithmTimeMillis(int floors, int rows, int columns);
 
 }

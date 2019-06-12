@@ -9,14 +9,16 @@ import java.util.Random;
  */
 public class MyMazeGenerator extends AMazeGenerator {
 
+    final private int UP_DOWN_PERCENT = 20;
+
     @Override
-    public Maze generate(int rows, int columns) {
-        Maze myMaze = new Maze(rows, columns);
+    public Maze generate(int floors, int rows, int columns) {
+        Maze myMaze = new Maze(floors, rows, columns);
         gridMaze(myMaze); // Gridding the maze
 
         ArrayList<Wall> wallList = new ArrayList<>();
 
-        Position startPos = new Position(0, 0);
+        Position startPos = new Position(0, 0, 0);
         myMaze.breakWall(startPos);
         myMaze.setStartPos(startPos);
 
@@ -44,6 +46,11 @@ public class MyMazeGenerator extends AMazeGenerator {
         return myMaze;
     }
 
+    @Override
+    public Maze generate(int rows, int columns) {
+        return generate(1, rows, columns);
+    }
+
     /**
      * Recieves cell in the maze, and adds his surrounding walls to the wall list
      * @param pos The position of the maze cell
@@ -52,21 +59,40 @@ public class MyMazeGenerator extends AMazeGenerator {
      */
     private void addWallsToList(Position pos, ArrayList<Wall> wallList, Maze maze){
         if(pos.getColumnIndex() < maze.getColumns()) {
-            if (pos.getRowIndex() < maze.getRows() - 1 && maze.maze[pos.getRowIndex() + 1][pos.getColumnIndex()] == 1) {
-                wallList.add(new Wall(new Position(pos.getRowIndex() + 1, pos.getColumnIndex())));
+            if (pos.getRowIndex() < maze.getRows() - 1 && maze.maze[pos.getFloorIndex()][pos.getRowIndex() + 1][pos.getColumnIndex()] == 1) {
+                wallList.add(new Wall(new Position(pos.getFloorIndex(),pos.getRowIndex() + 1, pos.getColumnIndex())));
             }
-            if (pos.getRowIndex() > 0 && maze.maze[pos.getRowIndex() - 1][pos.getColumnIndex()] == 1) {
-                wallList.add(new Wall(new Position(pos.getRowIndex() - 1, pos.getColumnIndex())));
+            if (pos.getRowIndex() > 0 && maze.maze[pos.getFloorIndex()][pos.getRowIndex() - 1][pos.getColumnIndex()] == 1) {
+                wallList.add(new Wall(new Position(pos.getFloorIndex(),pos.getRowIndex() - 1, pos.getColumnIndex())));
             }
         }
+
         if(pos.getRowIndex() < maze.getRows()) {
-            if (pos.getColumnIndex() < maze.getColumns() - 1 && maze.maze[pos.getRowIndex()][pos.getColumnIndex() + 1] == 1) {
-                wallList.add(new Wall(new Position(pos.getRowIndex(), pos.getColumnIndex() + 1)));
+            if (pos.getColumnIndex() < maze.getColumns() - 1 && maze.maze[pos.getFloorIndex()][pos.getRowIndex()][pos.getColumnIndex() + 1] == 1) {
+                wallList.add(new Wall(new Position(pos.getFloorIndex(), pos.getRowIndex(), pos.getColumnIndex() + 1)));
             }
-            if (pos.getColumnIndex() > 0 && maze.maze[pos.getRowIndex()][pos.getColumnIndex() - 1] == 1) {
-                wallList.add(new Wall(new Position(pos.getRowIndex(), pos.getColumnIndex() - 1)));
+            if (pos.getColumnIndex() > 0 && maze.maze[pos.getFloorIndex()][pos.getRowIndex()][pos.getColumnIndex() - 1] == 1) {
+                wallList.add(new Wall(new Position(pos.getFloorIndex(), pos.getRowIndex(), pos.getColumnIndex() - 1)));
             }
         }
+
+        if(getRandomBool() && !pos.equals(maze.getStartPosition()))
+            if(pos.getFloorIndex() < maze.getFloors())
+                if(pos.getFloorIndex() < maze.getFloors() - 1 && maze.maze[pos.getFloorIndex() + 1][pos.getRowIndex()][pos.getColumnIndex()] == 1)
+                    wallList.add(new Wall(new Position(pos.getFloorIndex() + 1, pos.getRowIndex(), pos.getColumnIndex())));
+
+        if(getRandomBool())
+            if(pos.getFloorIndex() < maze.getFloors()) {
+                if(pos.getFloorIndex() > 0 && maze.maze[pos.getFloorIndex() - 1][pos.getRowIndex()][pos.getColumnIndex()] == 1)
+                    wallList.add(new Wall(new Position(pos.getFloorIndex() - 1, pos.getRowIndex(), pos.getColumnIndex())));
+            }
+    }
+
+    private Random random = new Random();
+
+    private boolean getRandomBool()
+    {
+        return random.nextInt(100) <= UP_DOWN_PERCENT;
     }
 
     /**
@@ -74,28 +100,22 @@ public class MyMazeGenerator extends AMazeGenerator {
      * @param maze Maze to grid
      */
     private void gridMaze(Maze maze) {
-        for (int i = 0; i < maze.getRows(); i++) {
-            for (int j = 0; j < maze.getColumns(); j++) {
-                if (i % 2 == 0 && i != maze.getRows() - 1) {
-                    if (j % 2 != 0 && j != maze.getColumns()-1) {
-                        maze.maze[i][j] = 1;
-                    }
-                    else if(j % 2 == 0)
-                        maze.maze[i][j] = -1;
-                    else // last column not a wall
-                        maze.maze[i][j] = 0;
+        for (int i = 0; i < maze.getFloors(); i++) {
+            for (int j = 0; j < maze.getRows(); j++)
+                for (int k = 0; k < maze.getColumns(); k++) {
+                    if (i % 2 == 0) {
+                        if (j % 2 == 0) {
+                            if (k % 2 != 0) {
+                                maze.maze[i][j][k] = 1;
+                            } else if (k % 2 == 0)
+                                maze.maze[i][j][k] = -1;
+                        } else
+                            maze.maze[i][j][k] = 1;
+                    } else
+                        maze.maze[i][j][k] = 1;
                 }
-                else if(i == maze.getRows() - 1){ // last row not a wall
-                    if (j % 2 != 0 && j != maze.getColumns()-1) {
-                        maze.maze[i][j] = 1;
-                    }
-                    else
-                        maze.maze[i][j] = 0;
-                }
-                else
-                    maze.maze[i][j] = 1;
-            }
         }
+
     }
 
     /**
@@ -109,14 +129,21 @@ public class MyMazeGenerator extends AMazeGenerator {
 
         Wall(Position pos){
             this.position = pos;
-            if (pos.getRowIndex()%2 != 0){
-                this.adjCell1 = new Position(pos.getRowIndex()-1, pos.getColumnIndex());
-                this.adjCell2 = new Position(pos.getRowIndex()+1, pos.getColumnIndex());
+            if(pos.getFloorIndex()%2 == 0) {
+                if (pos.getRowIndex() % 2 != 0) {
+                    this.adjCell1 = new Position(pos.getFloorIndex(), pos.getRowIndex() - 1, pos.getColumnIndex());
+                    this.adjCell2 = new Position(pos.getFloorIndex(), pos.getRowIndex() + 1, pos.getColumnIndex());
+                }
+                else {
+                    this.adjCell1 = new Position(pos.getFloorIndex(), pos.getRowIndex(), pos.getColumnIndex() - 1);
+                    this.adjCell2 = new Position(pos.getFloorIndex(), pos.getRowIndex(), pos.getColumnIndex() + 1);
+                }
             }
             else{
-                this.adjCell1 = new Position(pos.getRowIndex(), pos.getColumnIndex()-1);
-                this.adjCell2 = new Position(pos.getRowIndex(), pos.getColumnIndex()+1);
+                this.adjCell1 = new Position(pos.getFloorIndex() - 1, pos.getRowIndex(), pos.getColumnIndex());
+                this.adjCell2 = new Position(pos.getFloorIndex() + 1, pos.getRowIndex(), pos.getColumnIndex());
             }
+
         }
     }
 }
