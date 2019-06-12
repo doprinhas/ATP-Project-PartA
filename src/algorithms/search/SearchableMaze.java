@@ -77,13 +77,13 @@ public class SearchableMaze implements ISearchable{
         ArrayList<String> keys = new ArrayList<>();
 
         keys.add(getKey(curr_row - 1, curr_col));
-        keys.add(getKey(curr_row - 1, curr_col + 1));
+//        keys.add(getKey(curr_row - 1, curr_col + 1));
         keys.add(getKey(curr_row , curr_col +1));
-        keys.add(getKey(curr_row + 1, curr_col + 1));
+//        keys.add(getKey(curr_row + 1, curr_col + 1));
         keys.add(getKey(curr_row + 1, curr_col));
-        keys.add(getKey(curr_row + 1, curr_col - 1));
+//        keys.add(getKey(curr_row + 1, curr_col - 1));
         keys.add(getKey(curr_row , curr_col - 1));
-        keys.add(getKey(curr_row - 1, curr_col - 1));
+//        keys.add(getKey(curr_row - 1, curr_col - 1));
 
         for (String key: keys) {
             if (m_states.containsKey(key))

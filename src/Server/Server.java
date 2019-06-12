@@ -52,7 +52,7 @@ public class Server {
                     Socket clientSocket = serverSocket.accept(); // blocking call
                     executorService.execute(() -> handleClient(clientSocket));
                 } catch (SocketTimeoutException e) {
-                    System.out.println("waiting for clients");
+                    //System.out.println("waiting for clients");
                 }
             }
             serverSocket.close();
