@@ -150,7 +150,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
                         return i;
                     }
                 }
-                catch(ArrayIndexOutOfBoundsException e) {}
+                catch(ArrayIndexOutOfBoundsException ea) {}
             }
             catch(IOException e)
             {
