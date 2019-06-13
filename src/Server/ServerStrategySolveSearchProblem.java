@@ -142,12 +142,15 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
             {
                 FileInputStream inStreamMaze = new FileInputStream(mazeTempDirectoryPath + "\\" + i);
                 MyDecompressorInputStream decompressor = new MyDecompressorInputStream(inStreamMaze);
-                byte[] inMaze = new byte[clientMaze.length*5];
-                int mazeLength = decompressor.read(inMaze);
-                if(clientMaze.length == mazeLength && Arrays.equals(inMaze, clientMaze))
-                {
-                    return i;
+                try {
+                    byte[] inMaze = new byte[clientMaze.length];
+                    int mazeLength = decompressor.read(inMaze);
+                    if(clientMaze.length == mazeLength && Arrays.equals(inMaze, clientMaze))
+                    {
+                        return i;
+                    }
                 }
+                catch(ArrayIndexOutOfBoundsException e) {}
             }
             catch(IOException e)
             {

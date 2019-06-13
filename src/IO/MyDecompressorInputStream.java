@@ -41,7 +41,7 @@ public class MyDecompressorInputStream extends InputStream {
      * @return
      */
     @Override
-    public int read(byte[] b) {
+    public int read(byte[] b) throws ArrayIndexOutOfBoundsException{
         try {
             int to_return = in.read(b);
             decompress(b);
@@ -57,7 +57,7 @@ public class MyDecompressorInputStream extends InputStream {
      * This function decompress the given byte array
      * @param in
      */
-    public static void decompress(byte[] in) {
+    public static void decompress(byte[] in) throws ArrayIndexOutOfBoundsException {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             InflaterOutputStream infl = new InflaterOutputStream(out /*, new Inflater(true)*/);
@@ -69,7 +69,7 @@ public class MyDecompressorInputStream extends InputStream {
             for (int i = 0 ; i < decompress.length ; i++)
                 in[i] = decompress[i];
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
